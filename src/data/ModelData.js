@@ -1,38 +1,53 @@
+import game from'./../img/gamepad-2.png'
+import food from './../img/Food.png'
+import shop from './../img/Shopping.png'
+import car  from './../img/Trasnport.png'
+
 const data = [
   {
+    description: 'Book',
     sum: "45",
-    valyt: "euro",
+    valyt: "€",
     type: "expense",
     category: "education",
     day: "14/04/2023",
+    icon: game,
   },
   {
+    description: 'Shampoo',
     sum: "69",
-    valyt: "zl",
+    valyt: 'zł' ,
     type: "expense",
     category: "selfcare",
     day: "13/04/2023",
+    icon: shop,
   },
   {
+    description: 'Work',
     sum: "7000",
-    valyt: "doll",
+    valyt: "$",
     type: "income",
     category: "salary",
     day: "14/04/2023",
+    icon: shop,
   },
   {
+    description: 'Zakopane',
     sum: "250",
-    valyt: "euro",
+    valyt: "€",
     type: "expense",
     category: "travel",
     day: "14/04/2023",
+    icon: car,
   },
   {
+    description: 'Pizza',
     sum: "60",
-    valyt: "zl",
+    valyt: "zł",
     type: "expense",
     category: "entertainment",
     day: "20/04/2023",
+    icon: food,
   },
 ];
 
