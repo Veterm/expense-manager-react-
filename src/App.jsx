@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Tabs from "./Tab/Tab";
 import data from "./data/ModelData";
@@ -7,7 +8,7 @@ import "./App.css";
 
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [dataState, setStateData] = useState(data);
   let tabsContent = [
     {
       name: "All",
@@ -30,7 +31,7 @@ function App() {
   return (
     <div>
     <Tabs data={tabsContent} />
-    <Modal/>
+    <Modal />
     </div>
     )
 }
