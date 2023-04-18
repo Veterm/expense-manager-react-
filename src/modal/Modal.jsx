@@ -3,26 +3,98 @@ import { Fragment, useState } from "react";
 import Select from "../select/Select";
 import Toggle from "../toggle/Toggle";
 
+
+
 function Modal(addNewTransaction) {
   let [isOpen, setIsOpen] = useState(true);
-  let [form, setForm] = useState({ amount: 5, valyt: 'PLN', category: '', description: '', type: "expense"});
+  let [form, setForm] = useState({ amount: '', valyt: 'PLN', category: '', description: '', type: "expense", date: ''});
+  // let [state, setArray] = useState({
+  //   description: 'Book',
+  //   sum: "45",
+  //   valyt: "€",
+  //   type: "expense",
+  //   category: "education",
+  //   day: "14/04/2023",
+  //   icon: game,
+  // },
+  // {
+  //   description: 'Shampoo',
+  //   sum: "69",
+  //   valyt: 'zł' ,
+  //   type: "expense",
+  //   category: "selfcare",
+  //   day: "13/04/2023",
+  //   icon: shop,
+  // },
+  // {
+  //   description: 'Work',
+  //   sum: "7000",
+  //   valyt: "$",
+  //   type: "income",
+  //   category: "salary",
+  //   day: "14/04/2023",
+  //   icon: shop,
+  // },
+  // {
+  //   description: 'Zakopane',
+  //   sum: "250",
+  //   valyt: "€",
+  //   type: "expense",
+  //   category: "travel",
+  //   day: "14/04/2023",
+  //   icon: car,
+  // },
+  // {
+  //   description: 'Pizza',
+  //   sum: "60",
+  //   valyt: "zł",
+  //   type: "expense",
+  //   category: "entertainment",
+  //   day: "20/04/2023",
+  //   icon: food,
+  // },
+  // );
+
   function closeModal() {
     setIsOpen(false);
   }
-
+  
   function openModal() {
     setIsOpen(true);
   }
 
+  function toggleHandler({enabled}){
+    console.log(enabled)
+    
+    // setForm({...form, type: value})
+  }
+
   function categoryHandler(name){
+    // console.log(form)
+    
     setForm({...form, category: name})
   }
 
   function handler(e){
-    console.log(e.target.value)
-    console.log(e.target.name)
-    setForm(...form, {[e.target.name]: e.target.value})
+    setForm({...form, description: e.target.value })
+  //  console.log(form)
   }
+
+  function handlerDate(e){
+    setForm({...form, date: e.target.value })
+  //  console.log(form)
+  }
+
+  function handlerValut(e){
+    setForm({...form, valyt: e.target.value })
+  //  console.log(form)
+  }
+
+  function handlerAmount(e){
+    setForm({...form, amount: e.target.value })
+  //  console.log(form)
+  }
+   console.log(form)
 
   return (
     <>
@@ -77,7 +149,7 @@ function Modal(addNewTransaction) {
                         <input
                           type="text"
                           value={form.amount}
-                          onChange={handler}
+                          onChange={handlerAmount}
                           name="price"
                           id="price"
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
@@ -89,12 +161,12 @@ function Modal(addNewTransaction) {
                           </label>
                           <select
                             value={form.valyt}
-                            onChange={handler}
+                            onChange={handlerValut}
                             id="currency"
                             name="currency"
                             className="h-full   font-medium rounded-md border-0 bg-transparent py-0 pr-2 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-rose-200 sm:text-sm focus:outline-none"
                           >
-                            <option value={'USD'}>USD</option>
+                            <option  value={'USD'}>USD</option>
                             <option  value={'PLN'}>PLN</option>
                             <option  value={'EUR'}>EUR</option>
                           </select>
@@ -103,29 +175,40 @@ function Modal(addNewTransaction) {
                     </div>
                     
                     <div className=" basis-1/2 ">
-                        <Select value={form.category} handleCategory={categoryHandler} />
+                        <Select value={form.category} onChange={categoryHandler} handleCategory={categoryHandler} />
                     </div>  
                   </div>
                   <div className=" flex mt-5 justify-between">
                   <input
                           type="text"
                           name="description"
+                          value={form.description}
                           onChange={handler}
-                          id="Description"
-                          className=" rounded-md border-0 mb-10  py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          id="description"
+                          className=" rounded-md border-0 mb-5  py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Description"
                         />
+                        <input
+                          type="date"
+                          name="date"
+                          value={form.date}
+                          onChange={handlerDate}
+                          id="date"
+                          className=" text-left   rounded-md border-0 mb-5  py-1.5 pl-12 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          placeholder="Transaction date"
+                        />
                         
-                        <Toggle />
+                        
                   </div>
-                  <div className="">
+                  <div className=" flex  justify-between">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-rose-100 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => {closeModal, addNewTransaction()}}
                     >
                       Add new transaction
                     </button>
+                    <Toggle name="type" value={form.type} onChange={toggleHandler} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

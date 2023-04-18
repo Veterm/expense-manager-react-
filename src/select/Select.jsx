@@ -12,20 +12,21 @@ const people = [
   { name: "other" },
 ];
 
-export default function Select({value, handleCategory}) {
+export default function Select({name, handleCategory}) {
   console.log(handleCategory)
-  const [selectedCategory, setSelected] = useState({name: value});
+  const [selectedCategory, setSelected] = useState({name});
 
   useEffect(() => {
     console.log('catery changed', selectedCategory.name)
     handleCategory(selectedCategory.name)
+    
   }, [selectedCategory])
 
   return (
     <div className="  fixed top-16  z-20 ">
       <Listbox value={selectedCategory} onChange={setSelected}>
         <div className="relative z-10 w-44 ">
-          <Listbox.Button className=" w-44 pl-3 py-1.5 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-200 sm:text-sm sm:leading-6 
+          <Listbox.Button className=" w-44 pl-3  py-1.5 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-200 sm:text-sm sm:leading-6 
            relative w-full cursor-default rounded-lg bg-white ">
             <span className="block truncate text-pink-900 font-medium" >{selectedCategory.name ? selectedCategory.name : 'Category'}</span>
             {/* <span className="block truncate">{selected.name}</span> */}
