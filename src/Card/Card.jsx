@@ -12,7 +12,7 @@ function Card(data) {
           <img className="mx-2 w-6 h-6 self-center" src={icon} alt="icon" />
         </div>
         <div className="flex flex-col ">
-          <h1 className="font-base font-bold ">{description}</h1>
+          <h1 className="font-base font-bold capitalize ">{description}</h1>
           <h1 className="text-xs text-zinc-500">{category}</h1>
         </div>
       </div>

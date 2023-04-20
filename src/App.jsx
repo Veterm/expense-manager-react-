@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Tabs from "./Tab/Tab";
 import data from "./data/ModelData";
 import Card from "./Card/Card";
@@ -7,8 +7,25 @@ import Modal from "./modal/Modal";
 import "./App.css";
 
 
+
+
+
 function App() {
   const [dataState, setStateData] = useState(data);
+
+  useEffect(() => {
+    console.log(`DateState - `, dataState)
+  }, [dataState])
+
+  function addTransaction(obj){
+    let copyList = [...dataState]
+    copyList.push(obj)
+    setStateData(copyList)
+    
+  }
+  
+ 
+  
   let tabsContent = [
     {
       name: "All",
@@ -25,13 +42,13 @@ function App() {
   ];
 
   function getTransactionsFor(type) {
-    return data.filter(x => type ? x.type == type : true);
+    return dataState.filter(x => type ? x.type == type : true);
   }
 
   return (
     <div>
-    <Tabs data={tabsContent} />
-    <Modal />
+      <Tabs data={tabsContent} />
+      <Modal addNewTransaction={addTransaction}  />
     </div>
     )
 }

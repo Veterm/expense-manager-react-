@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 
-function Toggle({value, toggleHandler}) {
-  const [enabled, setEnabled] = useState(false)
+function Toggle({enabled, toggleHandler}) {
   
    
  
-  // console.log(value)
+ 
 
   return (
     <div className='place-content-center  mr-16 z-10 '>
       <Switch
         checked={enabled}
-        onChange={setEnabled}
+        onChange={toggleHandler}
         // onClick={toggleChecked}
         className={`${enabled ? 'bg-teal-600' : 'bg-rose-800'}
           relative inline-flex h-[26px] w-[62px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}

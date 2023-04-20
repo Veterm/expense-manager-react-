@@ -2,6 +2,7 @@ import game from'./../img/gamepad-2.png'
 import food from './../img/Food.png'
 import shop from './../img/Shopping.png'
 import car  from './../img/Trasnport.png'
+import wallet  from './../img/bag.png'
 
 const data = [
   {
@@ -29,7 +30,7 @@ const data = [
     type: "income",
     category: "salary",
     day: "14/04/2023",
-    icon: shop,
+    icon: wallet,
   },
   {
     description: 'Zakopane',

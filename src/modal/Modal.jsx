@@ -1,60 +1,39 @@
 import { Dialog, Transition } from "@headlessui/react";
+
 import { Fragment, useState } from "react";
 import Select from "../select/Select";
 import Toggle from "../toggle/Toggle";
+import { Datepicker, Input, initTE } from "tw-elements";
+initTE({ Datepicker, Input });
+
+import game from '../img/gamepad-2.png'
+import food from '../img/Food.png'
+import shop from '../img/Shopping.png'
+import car  from '../img/Trasnport.png'
+import wallet  from '../img/bag.png'
 
 
 
-function Modal(addNewTransaction) {
+function Modal({addNewTransaction}) {
   let [isOpen, setIsOpen] = useState(true);
-  let [form, setForm] = useState({ amount: '', valyt: 'PLN', category: '', description: '', type: "expense", date: ''});
-  // let [state, setArray] = useState({
-  //   description: 'Book',
-  //   sum: "45",
-  //   valyt: "€",
-  //   type: "expense",
-  //   category: "education",
-  //   day: "14/04/2023",
-  //   icon: game,
-  // },
-  // {
-  //   description: 'Shampoo',
-  //   sum: "69",
-  //   valyt: 'zł' ,
-  //   type: "expense",
-  //   category: "selfcare",
-  //   day: "13/04/2023",
-  //   icon: shop,
-  // },
-  // {
-  //   description: 'Work',
-  //   sum: "7000",
-  //   valyt: "$",
-  //   type: "income",
-  //   category: "salary",
-  //   day: "14/04/2023",
-  //   icon: shop,
-  // },
-  // {
-  //   description: 'Zakopane',
-  //   sum: "250",
-  //   valyt: "€",
-  //   type: "expense",
-  //   category: "travel",
-  //   day: "14/04/2023",
-  //   icon: car,
-  // },
-  // {
-  //   description: 'Pizza',
-  //   sum: "60",
-  //   valyt: "zł",
-  //   type: "expense",
-  //   category: "entertainment",
-  //   day: "20/04/2023",
-  //   icon: food,
-  // },
-  // );
-
+  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet});
+  let [isDis, setIsDis] = useState(false);
+  const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
+  const people = [
+    {name: "Category"},
+    { name: "education" },
+    { name: "selfcare" },
+    { name: "salary" },
+    { name: "travel" },
+    { name: "entertainment" },
+    { name: "food" },
+    { name: "other" },
+  ];
+  const icons = [{ education: shop }, { selfcare: shop }, { salary: wallet }, { trevel: car }, { entertainment: game }, { food: food }, { other: shop }]
+  function onSubmitHandler() {
+    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet})
+  }
+  
   function closeModal() {
     setIsOpen(false);
   }
@@ -63,38 +42,45 @@ function Modal(addNewTransaction) {
     setIsOpen(true);
   }
 
-  function toggleHandler({enabled}){
-    console.log(enabled)
+  function dis(){
+  Object.values(form).forEach(val => {
+    if (val == ""){
+      return false
+     
+    } else{
+      return true
+    }
     
-    // setForm({...form, type: value})
+  })
+}
+ 
+
+
+
+  function toggleHandler(enabled){
+    console.log(`toggle`,enabled)
+    setForm({...form, type: enabled == true ? 'income' : 'expense'})
   }
 
   function categoryHandler(name){
     // console.log(form)
-    
     setForm({...form, category: name})
+    // let filt = icons.filter((item, i, icons) => icons.findIndex(it => it))
+    // console.log(filt)
+  }
+  function currencyHandler(name){
+    // console.log(form)
+    setForm({...form, valyt: name})
   }
 
   function handler(e){
-    setForm({...form, description: e.target.value })
+    setForm({...form, [e.target.name]: e.target.value })
   //  console.log(form)
   }
-
-  function handlerDate(e){
-    setForm({...form, date: e.target.value })
-  //  console.log(form)
-  }
-
-  function handlerValut(e){
-    setForm({...form, valyt: e.target.value })
-  //  console.log(form)
-  }
-
-  function handlerAmount(e){
-    setForm({...form, amount: e.target.value })
-  //  console.log(form)
-  }
+  // const d = new Date(form.day);
+  //     let   dayy =  `${d.getDay(form.day)}/${d.getMonth(form.day)}/${d.getFullYear(form.day)}`; 
    console.log(form)
+  //  console.log(dayy)
 
   return (
     <>
@@ -140,18 +126,19 @@ function Modal(addNewTransaction) {
                   >
                     NEW TRANSACTION
                   </Dialog.Title>
-                  <div className="mt-2 flex space-x-12">
+                  <div className="my-4 flex space-x-12">
                     <div className="basis-1/2 ">
-                      <div className="relative mt-2 rounded-md shadow-sm flex">
+                      <div className="relative rounded-md shadow-sm flex">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                           <span className="text-gray-500 sm:text-sm">$</span>
                         </div>
                         <input
                           type="text"
-                          value={form.amount}
-                          onChange={handlerAmount}
-                          name="price"
-                          id="price"
+                          value={form.sum}
+                          onChange={handler}
+                          name="sum"
+                          id="sum"
+                          required
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Amount"
                         />
@@ -159,23 +146,28 @@ function Modal(addNewTransaction) {
                           <label htmlFor="currency" className="sr-only">
                             Currency
                           </label>
-                          <select
+                          {/* <select
                             value={form.valyt}
-                            onChange={handlerValut}
-                            id="currency"
-                            name="currency"
-                            className="h-full   font-medium rounded-md border-0 bg-transparent py-0 pr-2 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-rose-200 sm:text-sm focus:outline-none"
+                            onChange={handler}
+                            id="valyt"
+                            name="valyt"
+                            className="h-full   font-medium rounded-md border-0 bg-transparent py-0  text-gray-500 focus:ring-2 focus:ring-inset focus:ring-rose-200 sm:text-sm focus:outline-none "
                           >
-                            <option  value={'USD'}>USD</option>
-                            <option  value={'PLN'}>PLN</option>
-                            <option  value={'EUR'}>EUR</option>
-                          </select>
+                            {currency.map((nameVal, idx)=>(
+                              <option key={idx} aria-selected='false' data-headlessui-state className="text-gray-500 font-medium bg-rose-100"
+                               >{nameVal}</option>
+                            ))}
+                            
+                          </select> */}
+                          
+                            <Select items={currency} value={form.valyt} onChange={currencyHandler} handleCategory={currencyHandler} />
+                          
                         </div>
                       </div>
                     </div>
                     
                     <div className=" basis-1/2 ">
-                        <Select value={form.category} onChange={categoryHandler} handleCategory={categoryHandler} />
+                        <Select isFullWidth={true} items={people} value={form.category} onChange={categoryHandler} handleCategory={categoryHandler} />
                     </div>  
                   </div>
                   <div className=" flex mt-5 justify-between">
@@ -185,30 +177,53 @@ function Modal(addNewTransaction) {
                           value={form.description}
                           onChange={handler}
                           id="description"
-                          className=" rounded-md border-0 mb-5  py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          required
+                          className="  rounded-md border-0 mb-5  py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Description"
                         />
                         <input
                           type="date"
-                          name="date"
-                          value={form.date}
-                          onChange={handlerDate}
-                          id="date"
-                          className=" text-left   rounded-md border-0 mb-5  py-1.5 pl-12 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          name="day"
+                          value={form.day}
+                          onChange={handler}
+                          id="daye"
+                          required
+                          className=" text-left text-rose-900 font-medium pl-11 rounded-md border-0 mb-5  py-1.5 pl-12 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Transaction date"
                         />
-                        
-                        
+                        {/* <div
+  className="relative mb-3"
+  data-te-datepicker-init
+  data-te-inline="true"
+  data-te-input-wrapper-init>
+  <input
+    name="date"
+    value={form.date}
+    onChange={handler}
+    id="date"
+                          
+    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" />
+  <label
+    htmlFor="floatingInput"
+    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+    >Select a date</label>
+</div> */}
+
                   </div>
                   <div className=" flex  justify-between">
                     <button
+                      id='addTransaction'                    
                       type="button"
+                      disabled={isDis}
+                      
                       className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => {closeModal, addNewTransaction()}}
+                      onClick={() => {closeModal(), addNewTransaction(form), onSubmitHandler()}}
+                      
                     >
                       Add new transaction
                     </button>
-                    <Toggle name="type" value={form.type} onChange={toggleHandler} />
+                    <Toggle name="type" enabled={form.type == "income"} toggleHandler={toggleHandler} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
