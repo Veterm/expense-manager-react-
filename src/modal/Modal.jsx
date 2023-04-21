@@ -1,15 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Select from "../select/Select";
 import Toggle from "../toggle/Toggle";
 import { Datepicker, Input, initTE } from "tw-elements";
 initTE({ Datepicker, Input });
 
-import game from '../img/gamepad-2.png'
-import food from '../img/Food.png'
-import shop from '../img/Shopping.png'
-import car  from '../img/Trasnport.png'
+
 import wallet  from '../img/bag.png'
 
 
@@ -17,7 +14,7 @@ import wallet  from '../img/bag.png'
 function Modal({addNewTransaction}) {
   let [isOpen, setIsOpen] = useState(true);
   let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet});
-  let [isDis, setIsDis] = useState(false);
+  let [isDis, setIsDis] = useState(true);
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
   const people = [
     {name: "Category"},
@@ -29,7 +26,8 @@ function Modal({addNewTransaction}) {
     { name: "food" },
     { name: "other" },
   ];
-  const icons = [{ education: shop }, { selfcare: shop }, { salary: wallet }, { trevel: car }, { entertainment: game }, { food: food }, { other: shop }]
+ 
+  
   function onSubmitHandler() {
     setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet})
   }
@@ -42,18 +40,18 @@ function Modal({addNewTransaction}) {
     setIsOpen(true);
   }
 
-  function dis(){
-  Object.values(form).forEach(val => {
-    if (val == ""){
-      return false
-     
-    } else{
-      return true
-    }
+  useEffect(() => {
+    setIsDis(dis())
     
-  })
-}
- 
+  }, [form])
+  
+  function  dis() {
+    
+    let res = Object.values(form).every(x => x)
+    
+    return !res
+  }
+
 
 
 
@@ -63,28 +61,27 @@ function Modal({addNewTransaction}) {
   }
 
   function categoryHandler(name){
-    // console.log(form)
     setForm({...form, category: name})
-    // let filt = icons.filter((item, i, icons) => icons.findIndex(it => it))
-    // console.log(filt)
+
   }
   function currencyHandler(name){
-    // console.log(form)
     setForm({...form, valyt: name})
   }
 
+
+
   function handler(e){
     setForm({...form, [e.target.name]: e.target.value })
-  //  console.log(form)
   }
-  // const d = new Date(form.day);
-  //     let   dayy =  `${d.getDay(form.day)}/${d.getMonth(form.day)}/${d.getFullYear(form.day)}`; 
-   console.log(form)
-  //  console.log(dayy)
+  var d = new Date(form.day);
+
+      var   dayy =  `${d.getDate()}/${d.getMonth() +1}/${d.getFullYear()}`; 
+   
+   console.log(dayy)
 
   return (
     <>
-      <div className="fixed inline inset-0 flex items-center justify-center">
+      <div className=" inline inset-0 flex items-center justify-center">
         <button
           type="button"
           onClick={openModal}
@@ -139,6 +136,7 @@ function Modal({addNewTransaction}) {
                           name="sum"
                           id="sum"
                           required
+                          
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Amount"
                         />
@@ -146,22 +144,7 @@ function Modal({addNewTransaction}) {
                           <label htmlFor="currency" className="sr-only">
                             Currency
                           </label>
-                          {/* <select
-                            value={form.valyt}
-                            onChange={handler}
-                            id="valyt"
-                            name="valyt"
-                            className="h-full   font-medium rounded-md border-0 bg-transparent py-0  text-gray-500 focus:ring-2 focus:ring-inset focus:ring-rose-200 sm:text-sm focus:outline-none "
-                          >
-                            {currency.map((nameVal, idx)=>(
-                              <option key={idx} aria-selected='false' data-headlessui-state className="text-gray-500 font-medium bg-rose-100"
-                               >{nameVal}</option>
-                            ))}
-                            
-                          </select> */}
-                          
-                            <Select items={currency} value={form.valyt} onChange={currencyHandler} handleCategory={currencyHandler} />
-                          
+                         <Select items={currency} value={form.valyt} onChange={currencyHandler} handleCategory={currencyHandler} />
                         </div>
                       </div>
                     </div>
@@ -217,7 +200,7 @@ function Modal({addNewTransaction}) {
                       type="button"
                       disabled={isDis}
                       
-                      className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 disabled:hover:bg-rose-100 disabled:hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={() => {closeModal(), addNewTransaction(form), onSubmitHandler()}}
                       
                     >

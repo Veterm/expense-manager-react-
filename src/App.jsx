@@ -13,9 +13,7 @@ import "./App.css";
 function App() {
   const [dataState, setStateData] = useState(data);
 
-  useEffect(() => {
-    console.log(`DateState - `, dataState)
-  }, [dataState])
+ 
 
   function addTransaction(obj){
     let copyList = [...dataState]

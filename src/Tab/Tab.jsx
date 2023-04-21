@@ -6,53 +6,7 @@ import data from "../data/ModelData";
 
 
 function Tabs(data) {
-  console.log(data.data)
-  // let [datik, setDatik] = useState({
-  //   description: 'Book',
-  //   sum: "45",
-  //   valyt: "€",
-  //   type: "expense",
-  //   category: "education",
-  //   day: "14/04/2023",
-  //   icon: game,
-  // },
-  // {
-  //   description: 'Shampoo',
-  //   sum: "69",
-  //   valyt: 'zł' ,
-  //   type: "expense",
-  //   category: "selfcare",
-  //   day: "13/04/2023",
-  //   icon: shop,
-  // },
-  // {
-  //   description: 'Work',
-  //   sum: "7000",
-  //   valyt: "$",
-  //   type: "income",
-  //   category: "salary",
-  //   day: "14/04/2023",
-  //   icon: shop,
-  // },
-  // {
-  //   description: 'Zakopane',
-  //   sum: "250",
-  //   valyt: "€",
-  //   type: "expense",
-  //   category: "travel",
-  //   day: "14/04/2023",
-  //   icon: car,
-  // },
-  // {
-  //   description: 'Pizza',
-  //   sum: "60",
-  //   valyt: "zł",
-  //   type: "expense",
-  //   category: "entertainment",
-  //   day: "20/04/2023",
-  //   icon: food,
-  // },
-  // );
+
   return (
     <div className=" ">
       <Tab.Group>

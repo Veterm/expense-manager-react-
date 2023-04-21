@@ -3,11 +3,10 @@ import { Listbox, Transition } from "@headlessui/react";
 import select from '../img/select.png'
 
 export default function Select({ name, handleCategory, items, isFullWidth }) {
-  console.log(handleCategory)
+
   const [selectedCategory, setSelected] = useState({ name });
 
   useEffect(() => {
-    console.log('catery changed', selectedCategory.name)
     handleCategory(selectedCategory.name)
 
   }, [selectedCategory])

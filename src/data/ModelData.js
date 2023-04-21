@@ -8,7 +8,7 @@ const data = [
   {
     description: 'Book',
     sum: "45",
-    valyt: "€",
+    valyt: "EUR",
     type: "expense",
     category: "education",
     day: "14/04/2023",
@@ -17,7 +17,7 @@ const data = [
   {
     description: 'Shampoo',
     sum: "69",
-    valyt: 'zł' ,
+    valyt: 'PLN' ,
     type: "expense",
     category: "selfcare",
     day: "13/04/2023",
@@ -26,7 +26,7 @@ const data = [
   {
     description: 'Work',
     sum: "7000",
-    valyt: "$",
+    valyt: "USD",
     type: "income",
     category: "salary",
     day: "14/04/2023",
@@ -35,7 +35,7 @@ const data = [
   {
     description: 'Zakopane',
     sum: "250",
-    valyt: "€",
+    valyt: "EUR",
     type: "expense",
     category: "travel",
     day: "14/04/2023",
@@ -44,7 +44,7 @@ const data = [
   {
     description: 'Pizza',
     sum: "60",
-    valyt: "zł",
+    valyt: "PLN",
     type: "expense",
     category: "entertainment",
     day: "20/04/2023",
