@@ -5,10 +5,12 @@ import food from '../img/Food.png'
 import shop from '../img/Shopping.png'
 import car  from '../img/Trasnport.png'
 import wallet  from '../img/bag.png'
+import trash from "./../img/trash.png"
 
 
 
-const icons = { education: shop, selfcare: shop , salary: wallet ,  travel: car ,  entertainment: game ,  food: food ,  other: shop }
+   
+const icons = { education: shop, selfcare: shop , salary: wallet ,  travel: car , transport: car, entertainment: game ,restaurant:food,  products: food ,  other: shop }
 const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 
@@ -16,7 +18,7 @@ const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 function Card(data) {
   const { icon, sum, valyt, type, category, description, day } = data;
   return (
-    <div className="card bg-white">
+    <div className="card bg-white ">
       <div className="flex text-left text-gray-950 space-x-4 ">
         <div className="flex justify-center bg-neutral-200 rounded-md ">
           <img className="mx-2 w-6 h-6 self-center" src={icons[category]} alt="icon" />

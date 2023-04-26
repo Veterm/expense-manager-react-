@@ -15,7 +15,7 @@ export default function Select({ name, handleCategory, items, isFullWidth }) {
     <div className="flex z-20">
       <Listbox value={selectedCategory} onChange={setSelected}>
         {({ open }) => (
-          <div className={`relative z-20 ${isFullWidth ? 'w-full' : 'w-16'} `}>
+          <div className={`relative z-20 ${isFullWidth ? 'w-full ' : 'w-16'} `}>
 
             <Listbox.Button className=" w-44 pl-3  py-1.5 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-200 sm:text-sm sm:leading-6 
            relative w-full cursor-default rounded-lg bg-white ">

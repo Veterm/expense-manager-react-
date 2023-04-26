@@ -8,7 +8,7 @@ import data from "../data/ModelData";
 function Tabs(data) {
 
   return (
-    <div className=" ">
+    <div className="">
       <Tab.Group>
         <Tab.List className="">
           <div className="">
@@ -28,10 +28,10 @@ function Tabs(data) {
             ))}
           </div>
         </Tab.List>
-        <Tab.Panels>
+        <Tab.Panels className="">
           {data.data.map((item, i) => (
             <Tab.Panel key={i}>
-              <div className="divide-y-2  divide-neutral-100">
+              <div className="divide-y-2  divide-neutral-100 ">
                 {item.content.map((x, i) => (
                   <Card
                     key={i}

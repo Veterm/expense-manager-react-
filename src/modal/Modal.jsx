@@ -3,8 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import Select from "../select/Select";
 import Toggle from "../toggle/Toggle";
-import { Datepicker, Input, initTE } from "tw-elements";
-initTE({ Datepicker, Input });
+import Datepick from "../datepicker/Datepicker";
+
 
 
 import wallet  from '../img/bag.png'
@@ -12,8 +12,8 @@ import wallet  from '../img/bag.png'
 
 
 function Modal({addNewTransaction}) {
-  let [isOpen, setIsOpen] = useState(true);
-  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet});
+  let [isOpen, setIsOpen] = useState(false);
+  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet});
   let [isDis, setIsDis] = useState(true);
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
   const people = [
@@ -22,8 +22,10 @@ function Modal({addNewTransaction}) {
     { name: "selfcare" },
     { name: "salary" },
     { name: "travel" },
+    { name: "transport"},
     { name: "entertainment" },
-    { name: "food" },
+    { name: "products" },
+    { name: "restaurant" },
     { name: "other" },
   ];
  
@@ -73,11 +75,17 @@ function Modal({addNewTransaction}) {
   function handler(e){
     setForm({...form, [e.target.name]: e.target.value })
   }
-  var d = new Date(form.day);
-
-      var   dayy =  `${d.getDate()}/${d.getMonth() +1}/${d.getFullYear()}`; 
+  function handlerDate(e){
+    
+    let d = new Date(e.target.value);
+     let   dayy =  `${d.getDate() < 10 ? "0" + d.getDate() : d.getDate()}/${(d.getMonth() +1)<10 ? "0" + (d.getMonth() +1) : (d.getMonth() +1) }/${d.getFullYear()}`; 
+     
+     setForm({...form, [e.target.name]: dayy })
    
-   console.log(dayy)
+  }
+  
+  
+  
 
   return (
     <>
@@ -135,7 +143,11 @@ function Modal({addNewTransaction}) {
                           onChange={handler}
                           name="sum"
                           id="sum"
-                          required
+                          onKeyPress={(event) => {
+                            if (!/[0-9]/.test(event.key)) {
+                              event.preventDefault();
+                            }
+                          }}
                           
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Amount"
@@ -161,37 +173,26 @@ function Modal({addNewTransaction}) {
                           onChange={handler}
                           id="description"
                           required
-                          className="  rounded-md border-0 mb-5  py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          className="  rounded-md border-0 mb-5 mr-12 py-1.5 pl-2 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Description"
                         />
                         <input
-                          type="date"
+                          type="text"
                           name="day"
                           value={form.day}
-                          onChange={handler}
+                          onChange={handlerDate}
                           id="daye"
-                          required
-                          className=" text-left text-rose-900 font-medium pl-11 rounded-md border-0 mb-5  py-1.5 pl-12 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+                          onFocus={
+                            (e)=> {
+                              e.currentTarget.type = "date";
+                              e.currentTarget.focus();
+                             }
+                            }
+                            onBlur={(e) => (e.currentTarget.type = "text")}
+                          className=" text-left  pl-2 rounded-md border-0 mb-5  py-1.5  pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
                           placeholder="Transaction date"
-                        />
-                        {/* <div
-  className="relative mb-3"
-  data-te-datepicker-init
-  data-te-inline="true"
-  data-te-input-wrapper-init>
-  <input
-    name="date"
-    value={form.date}
-    onChange={handler}
-    id="date"
-                          
-    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-    placeholder="Select a date" />
-  <label
-    htmlFor="floatingInput"
-    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-    >Select a date</label>
-</div> */}
+                        /> 
+                    
 
                   </div>
                   <div className=" flex  justify-between">

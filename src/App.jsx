@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Tabs from "./Tab/Tab";
 import data from "./data/ModelData";
-import Card from "./Card/Card";
+import TotalAmount from "./amount/Amount";
 import Modal from "./modal/Modal";
 import "./App.css";
 
@@ -19,8 +19,21 @@ function App() {
     let copyList = [...dataState]
     copyList.push(obj)
     setStateData(copyList)
-    
   }
+  function deleteTransaction(index){
+    // let newList = [...dataState]
+    // newList.pop()
+    // setStateData([...dataState.slice(0, index), ...dataState.slice(index+1) ])
+
+  }
+  
+   function getAmount(){
+    let amount = 0;
+    for(let i = 0; i <dataState.length; i++){
+      amount += Number(dataState[i].sum)
+    }
+    return amount;
+   }
   
  
   
@@ -44,9 +57,13 @@ function App() {
   }
 
   return (
-    <div>
-      <Tabs data={tabsContent} />
-      <Modal addNewTransaction={addTransaction}  />
+    <div >
+       <Modal addNewTransaction={addTransaction}  />
+    <div className=" justify-end h-100 overflow-auto">
+      <Tabs data={tabsContent}  />
+      <TotalAmount getAmount={getAmount} deleteTransaction={deleteTransaction} />
+     
+    </div>
     </div>
     )
 }
