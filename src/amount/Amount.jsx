@@ -5,7 +5,7 @@ import trash from "./../img/trash.png"
 
 function TotalAmount({getAmount, deleteTransaction}){
     return(
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-5">
         <div className="rounded-md text-left pt-4 py-3  ml-3 pr-14  font-base font-bold ring-2 ring-inset ring-rose-100  drop-shadow-xl  pl-2  text-sm   ">
         Total amount: {getAmount()} zł
         </div>

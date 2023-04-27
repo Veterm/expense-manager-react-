@@ -5,14 +5,15 @@ import data from "../data/ModelData";
 
 
 
-function Tabs(data) {
-
+function Tabs(props) {
+  const { data, deleteHandler} = props;
+  console.log(`deleteHandler`, data)
   return (
     <div className="">
       <Tab.Group>
         <Tab.List className="">
           <div className="">
-            {data.data.map((item, i) => (
+            {data.map((item, i) => (
               <Tab
                 key={i}
                 className={({ selected }) =>
@@ -28,8 +29,8 @@ function Tabs(data) {
             ))}
           </div>
         </Tab.List>
-        <Tab.Panels className="">
-          {data.data.map((item, i) => (
+        <Tab.Panels className="h-96 overflow-y-scroll">
+          {data.map((item, i) => (
             <Tab.Panel key={i}>
               <div className="divide-y-2  divide-neutral-100 ">
                 {item.content.map((x, i) => (
@@ -41,8 +42,11 @@ function Tabs(data) {
                     valyt={x.valyt}
                     category={x.category}
                     day={x.day}
+                    id={x.id}
+                    deleteHandler={deleteHandler}
                   />
                 ))}
+                
               </div>
             </Tab.Panel>
           ))}

@@ -13,7 +13,7 @@ import wallet  from '../img/bag.png'
 
 function Modal({addNewTransaction}) {
   let [isOpen, setIsOpen] = useState(false);
-  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet});
+  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
   let [isDis, setIsDis] = useState(true);
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
   const people = [
@@ -31,7 +31,7 @@ function Modal({addNewTransaction}) {
  
   
   function onSubmitHandler() {
-    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet})
+    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet, })
   }
   
   function closeModal() {

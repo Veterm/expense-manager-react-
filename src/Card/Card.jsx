@@ -15,10 +15,13 @@ const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 
 
-function Card(data) {
-  const { icon, sum, valyt, type, category, description, day } = data;
+function Card(props) {
+  const {  sum, valyt,  category, description, day, id, deleteHandler} = props;
+ 
+
   return (
-    <div className="card bg-white ">
+    <div className=" flex">
+    <div className="card bg-white pr-4">
       <div className="flex text-left text-gray-950 space-x-4 ">
         <div className="flex justify-center bg-neutral-200 rounded-md ">
           <img className="mx-2 w-6 h-6 self-center" src={icons[category]} alt="icon" />
@@ -32,6 +35,12 @@ function Card(data) {
         <h1 className="font-base font-bold">{`${sum} ${currency[valyt]}`}</h1>
         <h1 className="text-zinc-500 text-xs">{day}</h1>
       </div>
+      </div>
+      <button type="button" onClick={()=>{ deleteHandler(id)}}  className="place-self-start pt-5 pr-2 "> 
+      <img className="" src={trash} alt="" />
+      
+      </button>
+      
     </div>
   );
 };

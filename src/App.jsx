@@ -5,6 +5,7 @@ import data from "./data/ModelData";
 import TotalAmount from "./amount/Amount";
 import Modal from "./modal/Modal";
 import "./App.css";
+import Card from "./Card/Card";
 
 
 
@@ -12,20 +13,26 @@ import "./App.css";
 
 function App() {
   const [dataState, setStateData] = useState(data);
+  const [name, setName] = useState('');
 
  
 
   function addTransaction(obj){
-    let copyList = [...dataState]
+    let copyList = [...dataState] 
     copyList.push(obj)
+    obj.id = copyList.length;
+    
     setStateData(copyList)
   }
-  function deleteTransaction(index){
-    // let newList = [...dataState]
+  function deleteTransaction(id){
+    let newList = [...dataState]
+    newList = newList.filter(item=> item.id != id)
+    setStateData(newList)
     // newList.pop()
     // setStateData([...dataState.slice(0, index), ...dataState.slice(index+1) ])
-
   }
+
+  
   
    function getAmount(){
     let amount = 0;
@@ -57,13 +64,13 @@ function App() {
   }
 
   return (
-    <div >
-       <Modal addNewTransaction={addTransaction}  />
-    <div className=" justify-end h-100 overflow-auto">
-      <Tabs data={tabsContent}  />
-      <TotalAmount getAmount={getAmount} deleteTransaction={deleteTransaction} />
-     
-    </div>
+    <div className="max-w-7xl flex flex-wrap justify-center">
+      <Modal addNewTransaction={addTransaction} />
+      <div className="">
+        <Tabs data={tabsContent} deleteHandler={deleteTransaction}/>
+        
+        <TotalAmount getAmount={getAmount}  />
+      </div>
     </div>
     )
 }

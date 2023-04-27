@@ -6,6 +6,7 @@ import wallet  from './../img/bag.png'
 
 const data = [
   {
+    id: 1,
     description: 'Book',
     sum: "45",
     valyt: "EUR",
@@ -15,6 +16,7 @@ const data = [
     icon: game,
   },
   {
+    id: 2,
     description: 'Shampoo',
     sum: "69",
     valyt: 'PLN' ,
@@ -24,6 +26,7 @@ const data = [
     icon: shop,
   },
   {
+    id: 3,
     description: 'Work',
     sum: "7000",
     valyt: "USD",
@@ -33,6 +36,7 @@ const data = [
     icon: wallet,
   },
   {
+    id: 4,
     description: 'Zakopane',
     sum: "250",
     valyt: "EUR",
@@ -42,6 +46,7 @@ const data = [
     icon: car,
   },
   {
+    id: 5,
     description: 'Pizza',
     sum: "60",
     valyt: "PLN",
@@ -50,6 +55,7 @@ const data = [
     day: "20/04/2023",
     icon: food,
   },
+  
 ];
 
 export default data;
