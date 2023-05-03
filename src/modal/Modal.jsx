@@ -11,12 +11,17 @@ import wallet  from '../img/bag.png'
 
 
 
-function Modal({addNewTransaction}) {
-  let [isOpen, setIsOpen] = useState(false);
-  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
+function Modal(props) {
+const  {addNewTransaction, isEditForm} = props;
+  
+  let [isOpen, setIsOpen] = useState(isEditForm);
+  // let [editForm, setEdForm] = useState();
+  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet,  });
+ 
   let [isDis, setIsDis] = useState(true);
+  ;
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
-  const people = [
+  const category = [
     {name: "Category"},
     { name: "education" },
     { name: "selfcare" },
@@ -31,7 +36,7 @@ function Modal({addNewTransaction}) {
  
   
   function onSubmitHandler() {
-    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet, })
+    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet,   })
   }
   
   function closeModal() {
@@ -69,8 +74,7 @@ function Modal({addNewTransaction}) {
   function currencyHandler(name){
     setForm({...form, valyt: name})
   }
-
-
+ 
 
   function handler(e){
     setForm({...form, [e.target.name]: e.target.value })
@@ -89,7 +93,7 @@ function Modal({addNewTransaction}) {
 
   return (
     <>
-      <div className=" inline inset-0 flex items-center justify-center">
+    {isEditForm? '' : <div className=" inline inset-0 flex items-center justify-center">
         <button
           type="button"
           onClick={openModal}
@@ -97,10 +101,11 @@ function Modal({addNewTransaction}) {
         >
           Add transaction
         </button>
-      </div>
+      </div>}
+      
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" open={isOpen} className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -162,7 +167,7 @@ function Modal({addNewTransaction}) {
                     </div>
                     
                     <div className=" basis-1/2 ">
-                        <Select isFullWidth={true} items={people} value={form.category} onChange={categoryHandler} handleCategory={categoryHandler} />
+                        <Select isFullWidth={true} items={category} value={form.category} onChange={categoryHandler} handleCategory={categoryHandler} />
                     </div>  
                   </div>
                   <div className=" flex mt-5 justify-between">
@@ -202,7 +207,7 @@ function Modal({addNewTransaction}) {
                       disabled={isDis}
                       
                       className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 disabled:hover:bg-rose-100 disabled:hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => {closeModal(), addNewTransaction(form), onSubmitHandler()}}
+                      onClick={() => { closeModal(), addNewTransaction(form), onSubmitHandler()}}
                       
                     >
                       Add new transaction

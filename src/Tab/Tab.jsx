@@ -6,10 +6,10 @@ import data from "../data/ModelData";
 
 
 function Tabs(props) {
-  const { data, deleteHandler} = props;
-  console.log(`deleteHandler`, data)
+  const { data, deleteHandler, editHandler, searchId} = props;
+  
   return (
-    <div className="">
+    <div className="rounded">
       <Tab.Group>
         <Tab.List className="">
           <div className="">
@@ -32,7 +32,7 @@ function Tabs(props) {
         <Tab.Panels className="h-96 overflow-y-scroll">
           {data.map((item, i) => (
             <Tab.Panel key={i}>
-              <div className="divide-y-2  divide-neutral-100 ">
+              <div className="divide-y-2  divide-neutral-100  ">
                 {item.content.map((x, i) => (
                   <Card
                     key={i}
@@ -44,6 +44,8 @@ function Tabs(props) {
                     day={x.day}
                     id={x.id}
                     deleteHandler={deleteHandler}
+                    editHandler={editHandler}
+                    searchId={searchId}
                   />
                 ))}
                 

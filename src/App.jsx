@@ -5,7 +5,7 @@ import data from "./data/ModelData";
 import TotalAmount from "./amount/Amount";
 import Modal from "./modal/Modal";
 import "./App.css";
-import Card from "./Card/Card";
+import Select from "./select/Select";
 
 
 
@@ -13,8 +13,20 @@ import Card from "./Card/Card";
 
 function App() {
   const [dataState, setStateData] = useState(data);
-  const [name, setName] = useState('');
-
+  const [activTran, setActiveTran] = useState('')
+  // const [editForm, setEditForm] = useState(false);
+  const category = [
+    {name: "Filter by category"},
+    { name: "education" },
+    { name: "selfcare" },
+    { name: "salary" },
+    { name: "travel" },
+    { name: "transport"},
+    { name: "entertainment" },
+    { name: "products" },
+    { name: "restaurant" },
+    { name: "other" },
+  ];
  
 
   function addTransaction(obj){
@@ -27,12 +39,38 @@ function App() {
   function deleteTransaction(id){
     let newList = [...dataState]
     newList = newList.filter(item=> item.id != id)
+    
     setStateData(newList)
-    // newList.pop()
-    // setStateData([...dataState.slice(0, index), ...dataState.slice(index+1) ])
+    
+  }
+
+
+
+  function getIdForm(idActiveForm) {
+    setActiveTran(idActiveForm)
+
   }
 
   
+  function editForm(form) {
+    form.id = activTran;
+
+    let newList = [...dataState]
+
+
+    newList = newList.map(item => {
+      if (item.id === form.id) {
+        return form;
+      }
+      return item;
+    })
+    setStateData(newList)
+
+  }
+  function categoryHandler(name){
+    
+
+  }
   
    function getAmount(){
     let amount = 0;
@@ -64,12 +102,17 @@ function App() {
   }
 
   return (
-    <div className="max-w-7xl flex flex-wrap justify-center">
-      <Modal addNewTransaction={addTransaction} />
+    <div >
+      <div className="max-w-7xl flex flex-wrap justify-end   ">
+      
       <div className="">
-        <Tabs data={tabsContent} deleteHandler={deleteTransaction}/>
-        
+        <Tabs data={tabsContent} deleteHandler={deleteTransaction} editHandler={editForm} searchId={getIdForm} />
         <TotalAmount getAmount={getAmount}  />
+        <div className="mt-4 ml-5 flex place-content-center space-x-8 z-30 text-left">
+        <Modal isEditForm={false} addNewTransaction={addTransaction} />
+        <Select isFullWidth={true} items={category} handleCategory={categoryHandler} />
+        </div>
+        </div>
       </div>
     </div>
     )
