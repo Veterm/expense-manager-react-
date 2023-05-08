@@ -9,7 +9,8 @@ function Tabs(props) {
   const { data, deleteHandler, editHandler, searchId} = props;
   
   return (
-    <div className="rounded">
+    
+    <div className="">
       <Tab.Group>
         <Tab.List className="">
           <div className="">
