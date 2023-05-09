@@ -17,6 +17,7 @@ function App() {
   const [dataState, setStateData] = useState(data);
   const [activTran, setActiveTran] = useState('');
   const [filterCategory, setCategory] = useState(data);
+  
   // const [editForm, setEditForm] = useState(false);
   const category = [
     {name: "Filter by category"},
@@ -39,6 +40,7 @@ function App() {
 
     setStateData(copyList)
   }
+
   function deleteTransaction(id) {
     let newList = [...dataState]
     newList = newList.filter(item => item.id != id)
@@ -50,6 +52,7 @@ function App() {
     setActiveTran(idActiveForm)
 
   }
+
 
 
   function editForm(form) {

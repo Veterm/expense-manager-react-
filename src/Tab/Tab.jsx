@@ -1,13 +1,25 @@
 import { useState } from "react";
 import  {Tab}  from '@headlessui/react'
 import Card from "../Card/Card";
+import empty from "../img/empty.png"
 import data from "../data/ModelData";
 
 
 
 function Tabs(props) {
+  
   const { data, deleteHandler, editHandler, searchId} = props;
   
+
+function contentCard(){
+  if(data[0].content.length ===0){
+    return false
+  }else{
+    return true
+  }
+}
+
+
   return (
     
     <div className="">
@@ -31,10 +43,16 @@ function Tabs(props) {
           </div>
         </Tab.List>
         <Tab.Panels className="h-96 overflow-y-scroll">
-          {data.map((item, i) => (
+        {contentCard()? '': <div className="flex justify-center mt-44 mx-40 px-1">
+            <img className=" " src={empty} alt="" />
+            </div>}
+          {contentCard() && data.map((item, i) => (
             <Tab.Panel key={i}>
-              <div className="divide-y-2  divide-neutral-100  ">
-                {item.content.map((x, i) => (
+              <div className="divide-y-2  divide-neutral-100  "> 
+              {item.content.length? '': <div className="flex justify-center mt-44 mx-40 px-1">
+            <img className=" " src={empty} alt="" />
+            </div>}
+                {item.content.map((x, i) => (                 
                   <Card
                     key={i}
                     icon={x.icon}
@@ -48,12 +66,15 @@ function Tabs(props) {
                     editHandler={editHandler}
                     searchId={searchId}
                   />
+                  
                 ))}
                 
               </div>
             </Tab.Panel>
           ))}
+ 
         </Tab.Panels>
+       
       </Tab.Group>
     </div>
   );

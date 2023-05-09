@@ -35,7 +35,8 @@ function Card(props) {
   // console.log( editForm)
 
   return (
-    <div className=" flex bg-white ">
+    <>
+     <div className=" flex bg-white  ">
     <div className="card bg-white pr-4">
       <div className="flex text-left text-gray-950 space-x-4 ">
         <div className="flex justify-center bg-neutral-200 rounded-md ">
@@ -62,7 +63,9 @@ function Card(props) {
         {editForm && <Modal isEditForm={true} addNewTransaction={editHandler}/>}
 
       </div>
-    </div>
+    </div> 
+    
+    </>
   );
 };
 
