@@ -8,7 +8,7 @@ import data from "../data/ModelData";
 
 function Tabs(props) {
   
-  const { data, deleteHandler, editHandler, searchId, useFilter, filterCategory} = props;
+  const { data, deleteHandler, editHandler, searchId, useFilter, filterCategory, useDate, nameDate} = props;
   const lupa =    <div className="flex justify-center mt-44 mx-40 px-1">
   <img className=" " src={empty} alt="" />
 </div>;
@@ -20,6 +20,9 @@ function contentCard(){
     return true
   }
 }
+
+
+
 
 
   return (
@@ -46,11 +49,12 @@ function contentCard(){
         </Tab.List>
         <Tab.Panels className="h-96 overflow-y-scroll">
         {contentCard()? '': lupa}
-          {contentCard() && data.map((item, i) => (
+          { data.map((item, i) => (
             <Tab.Panel key={i}>
+              
               <div className="divide-y-2  divide-neutral-100  ">
-                {item.content.length ? '' : lupa}
-                {item.content.filter(x => useFilter ? x.category == filterCategory : true).filter(x => x == 0 ? lupa : true).map((x, i) => (
+              
+                {item.content.filter(x=> useDate? x.day == nameDate : true).filter(x => useFilter ? x.category == filterCategory : true).filter(x => x == 0 ? lupa : true).map((x, i) => (
 
                   <Card
                     key={i}
@@ -65,11 +69,17 @@ function contentCard(){
                     editHandler={editHandler}
                     searchId={searchId}
                   />
+                  
                 ))}
+                
+                
               </div>
+              
+          
             </Tab.Panel>
+            
           ))}
- 
+          
         </Tab.Panels>
        
       </Tab.Group>

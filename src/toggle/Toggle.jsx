@@ -8,7 +8,7 @@ function Toggle({enabled, toggleHandler}) {
  
 
   return (
-    <div className='place-content-center  mr-16 z-20 '>
+    <div className='place-content-center  mr-16  '>
       <Switch
         checked={enabled}
         onChange={toggleHandler}

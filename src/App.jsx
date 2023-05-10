@@ -17,7 +17,9 @@ function App() {
   const [dataState, setStateData] = useState(data);
   const [activTran, setActiveTran] = useState('');
   const [filterCategory, setCategory] = useState('');
-  const [useFilter, setUseFilter] = useState(false)
+  const [useFilter, setUseFilter] = useState(false);
+  const [useDataFilter, setDataFilter]= useState(false);
+  const [nameDate, setNameDate] = useState('');
   
   // const [editForm, setEditForm] = useState(false);
   const category = [
@@ -47,14 +49,15 @@ function App() {
     newList = newList.filter(item => item.id != id)
 
     setStateData(newList)
-
   }
+  
+
   function getIdForm(idActiveForm) {
     setActiveTran(idActiveForm)
 
   }
 
-console.log(useFilter)
+
 
   function editForm(form) {
     form.id = activTran;
@@ -78,22 +81,24 @@ console.log(useFilter)
     }else{
       setUseFilter(false)
     }
-    // let llist = [...dataState]
-    // llist = llist.filter(item => item.category === name)
-    console.log(name)
-    
-    // console.log(llist)
   }
 
-  // function filterCategoryHandler(name) {
-  //   console.log(`lolik ${name}`)
+  function filterDate(date){
+    if(date != ''){
+     setDataFilter(true)
+     setNameDate(date)
+    } 
+  }
+
+  function closeDateFilter(bool){
     
-  // }
-  // function filterUse(name){
-  //   if(name != undefined){
-  //     setUseFilter(true)
-  //   }
-  // }
+    if(bool == true){
+      setDataFilter(false)
+    }
+    console.log(bool)
+  }
+
+ 
 
   function getAmount() {
     let amount = 0;
@@ -126,11 +131,14 @@ console.log(useFilter)
 
   return (
     <div className="mx-6">
-      <h1 className="flex text-zinc-300 text-lg justify-end mr-6  my-1" >Recent Transaction</h1>
+      <div className="flex justify-end">
+      <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
+      <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
+      </div>
       <div className=" flex flex-wrap justify-end    ">
       
       <div className="bg-white rounded-lg py-4 ">
-        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} editHandler={editForm} searchId={getIdForm} />
+        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} />
         <TotalAmount getAmount={getAmount}  />
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
