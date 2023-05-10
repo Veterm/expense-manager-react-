@@ -16,11 +16,12 @@ import Select from "./select/Select";
 function App() {
   const [dataState, setStateData] = useState(data);
   const [activTran, setActiveTran] = useState('');
-  const [filterCategory, setCategory] = useState(data);
+  const [filterCategory, setCategory] = useState('');
+  const [useFilter, setUseFilter] = useState(false)
   
   // const [editForm, setEditForm] = useState(false);
   const category = [
-    {name: "Filter by category"},
+    {name: "All categories"},
     { name: "education" },
     { name: "selfcare" },
     { name: "salary" },
@@ -53,7 +54,7 @@ function App() {
 
   }
 
-
+console.log(useFilter)
 
   function editForm(form) {
     form.id = activTran;
@@ -71,19 +72,28 @@ function App() {
 
   }
   function categoryHandler(name) {
+    if(name != undefined && name != "All categories" ){
+      setUseFilter(true)
+      setCategory(name)
+    }else{
+      setUseFilter(false)
+    }
+    // let llist = [...dataState]
+    // llist = llist.filter(item => item.category === name)
+    console.log(name)
     
-    let llist = [...dataState]
-    llist = llist.filter(item => item.category === name)
-    setCategory(llist)
-    
-    console.log(llist)
+    // console.log(llist)
   }
 
-  function filterCategoryHandler(name) {
-    setStateData(name)
+  // function filterCategoryHandler(name) {
+  //   console.log(`lolik ${name}`)
     
-  }
-
+  // }
+  // function filterUse(name){
+  //   if(name != undefined){
+  //     setUseFilter(true)
+  //   }
+  // }
 
   function getAmount() {
     let amount = 0;
@@ -120,12 +130,12 @@ function App() {
       <div className=" flex flex-wrap justify-end    ">
       
       <div className="bg-white rounded-lg py-4 ">
-        <Tabs data={tabsContent} deleteHandler={deleteTransaction} editHandler={editForm} searchId={getIdForm} />
+        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} editHandler={editForm} searchId={getIdForm} />
         <TotalAmount getAmount={getAmount}  />
         
-        <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-30 text-left">
+        <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
         <Modal isEditForm={false} addNewTransaction={addTransaction} />
-        <Select isFullWidth={true} items={category} onClick={()=>{filterCategoryHandler(filterCategory)}} handleCategory={categoryHandler} />
+        <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
         </div>

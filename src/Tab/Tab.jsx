@@ -8,8 +8,10 @@ import data from "../data/ModelData";
 
 function Tabs(props) {
   
-  const { data, deleteHandler, editHandler, searchId} = props;
-  
+  const { data, deleteHandler, editHandler, searchId, useFilter, filterCategory} = props;
+  const lupa =    <div className="flex justify-center mt-44 mx-40 px-1">
+  <img className=" " src={empty} alt="" />
+</div>;
 
 function contentCard(){
   if(data[0].content.length ===0){
@@ -43,16 +45,13 @@ function contentCard(){
           </div>
         </Tab.List>
         <Tab.Panels className="h-96 overflow-y-scroll">
-        {contentCard()? '': <div className="flex justify-center mt-44 mx-40 px-1">
-            <img className=" " src={empty} alt="" />
-            </div>}
+        {contentCard()? '': lupa}
           {contentCard() && data.map((item, i) => (
             <Tab.Panel key={i}>
-              <div className="divide-y-2  divide-neutral-100  "> 
-              {item.content.length? '': <div className="flex justify-center mt-44 mx-40 px-1">
-            <img className=" " src={empty} alt="" />
-            </div>}
-                {item.content.map((x, i) => (                 
+              <div className="divide-y-2  divide-neutral-100  ">
+                {item.content.length ? '' : lupa}
+                {item.content.filter(x => useFilter ? x.category == filterCategory : true).filter(x => x == 0 ? lupa : true).map((x, i) => (
+
                   <Card
                     key={i}
                     icon={x.icon}
@@ -66,9 +65,7 @@ function contentCard(){
                     editHandler={editHandler}
                     searchId={searchId}
                   />
-                  
                 ))}
-                
               </div>
             </Tab.Panel>
           ))}
