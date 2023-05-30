@@ -60,7 +60,7 @@ function Card(props) {
           <img className=" " src={pencil} alt="" />
           
         </button>
-        {editForm && <Modal isEditForm={true} addNewTransaction={editHandler}/>}
+        {editForm && <Modal isEditForm={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}/>}
 
       </div>
     </div> 

@@ -95,7 +95,7 @@ function App() {
     if(bool == true){
       setDataFilter(false)
     }
-    console.log(bool)
+    
   }
 
  
@@ -114,19 +114,24 @@ function App() {
     {
       name: "All",
       content: getTransactionsFor(),
+      length: getTransactionsFor().length,
     },
     {
       name: "Revenue",
       content: getTransactionsFor("income"),
+      length: getTransactionsFor("income").length,
     },
     {
       name: "Expenses",
       content: getTransactionsFor("expense"),
+      length: getTransactionsFor("expense").length,
     },
   ];
-
+  
   function getTransactionsFor(type) {
-    return dataState.filter(x => type ? x.type == type : true);
+    
+   return dataState.filter(x => type ? x.type == type : true);
+   
   }
 
   return (

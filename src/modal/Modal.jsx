@@ -12,8 +12,7 @@ import wallet  from '../img/bag.png'
 
 
 function Modal(props) {
-const  {addNewTransaction, isEditForm} = props;
-  
+const  {addNewTransaction, isEditForm, onClose} = props;
   let [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
   let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet,  });
@@ -48,8 +47,13 @@ const  {addNewTransaction, isEditForm} = props;
   }
 
   useEffect(() => {
+    if(!isOpen && onClose){
+      onClose()
+    }
+  }, [isOpen])
+
+  useEffect(() => {
     setIsDis(dis())
-    
   }, [form])
   
   function  dis() {
