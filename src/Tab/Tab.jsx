@@ -8,43 +8,45 @@ import data from "../data/ModelData";
 
 function Tabs(props) {
   
-  const { data, deleteHandler, editHandler, searchId, useFilter, filterCategory, useDate, nameDate} = props;
-  const {category, setCategory} = useState('');
+  const { data, deleteHandler, editHandler, searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate} = props;
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const lupa = <div className="flex justify-center mt-44 mx-40 px-1">
   <img className=" " src={empty} alt="" />
 </div>;
 
-function contentCard(){
-  if(data[1].content.length ===0 ){
-    return false
-  }else{
-    return true
-  }
-}
-function handler(name){
-  console.log(name)
-}
 
 
+// function activeIndex(index){
+//   searchIndexTab(index)
+// }
+// activeIndex(selectedIndex)
 
+// function getAmount(items) {
+//     let amount = 0;
+//   for (let i = 0; i < items.length; i++) {
+//     amount += Number(items[i].sum)
+//   }return amount;
+// }
 
+// console.log(getAmount(data[selectedIndex].content))
 
   return (
     
     <div className="">
-      <Tab.Group
-        onChange={(index) => {
-          console.log('Changed selected tab to:', index)
-        }}
+      <Tab.Group  onChange={(index) => {
+        searchIndexTab(index)
+      }}
+        
+    
+        
       >
+        
         <Tab.List className="" >
           <div className="">
           
             {data.map((item, i) => (
               <Tab
                 key={i}
-                value={item.name}
-                onChange={handler}
                 className={({ selected }) =>
                   ` font-bold p-2 text-gray-500 focus:outline-none ${
                     selected
@@ -54,7 +56,7 @@ function handler(name){
                   
                 }
               >
-                {console.log(item.name)}
+               
                 {item.name}
               </Tab>
             ))}
@@ -68,25 +70,28 @@ function handler(name){
               
                 {item.content.length > 0 && 
                   <>
-                    {item.content.filter(x => useDate ? x.day == nameDate : true).filter(x => useFilter ? x.category == filterCategory : true).filter(x => x == 0 ? lupa : true).map((x, i) => (
+                    {item.content.filter(x => useDate ? x.day == nameDate : true).filter(x => useFilter ? x.category == filterCategory : true).map((x, i) => (
 
-                      <Card
-                        key={i}
-                        icon={x.icon}
-                        description={x.description}
-                        sum={x.sum}
-                        valyt={x.valyt}
-                        category={x.category}
-                        day={x.day}
-                        id={x.id}
-                        deleteHandler={deleteHandler}
-                        editHandler={editHandler}
-                        searchId={searchId}
-                      />
+                <Card
+                    key={i}
+                    icon={x.icon}
+                    description={x.description}
+                    sum={x.sum}
+                    valyt={x.valyt}
+                    category={x.category}
+                    day={x.day}
+                    id={x.id}
+                    deleteHandler={deleteHandler}
+                    editHandler={editHandler}
+                    searchId={searchId}
+                  />
 
                     ))}
+                    { (item.content.filter(x => useFilter ? x.category == filterCategory : true).length == 0 
+                    || item.content.filter(x => useDate ? x.day == nameDate : true).length == 0) && lupa}
+                    
                   </>
-                }
+                } 
                 { item.content.length == 0 &&
                   lupa
                 }

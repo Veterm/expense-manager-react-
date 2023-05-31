@@ -16,6 +16,7 @@ import Select from "./select/Select";
 function App() {
   const [dataState, setStateData] = useState(data);
   const [activTran, setActiveTran] = useState('');
+  const [activeTab, setActiveTab] = useState(0);
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -56,6 +57,9 @@ function App() {
     setActiveTran(idActiveForm)
 
   }
+  function getIndexActivaTab(index){
+    setActiveTab(index)
+  }
 
 
 
@@ -83,6 +87,8 @@ function App() {
     }
   }
 
+ 
+
   function filterDate(date){
     if(date != ''){
      setDataFilter(true)
@@ -99,16 +105,46 @@ function App() {
   }
 
  
-
-  function getAmount() {
+ 
+  function amount(arr){
     let amount = 0;
-    for (let i = 0; i < dataState.length; i++) {
-      amount += Number(dataState[i].sum)
+    for (let i = 0; i < arr.length; i++) {
+      amount += Number(arr[i].sum)
+    } return amount;
+  }
+  
+  function getAmount() {
+    if (!useFilter && !useDataFilter) {
+
+      if (activeTab === 0) {
+        return amount(dataState)
+      } if (activeTab == 1) {
+        let newArr = dataState.filter(item => item.type == "income")
+        return amount(newArr)
+      } if (activeTab == 2) {
+        let newArr = dataState.filter(item => item.type == "expense")
+        return amount(newArr)
+      }
+    } if (useFilter && !useDataFilter ) {
+      if (dataState.length > 0) {
+        let newArr = dataState.filter(item => item.category == filterCategory)
+        return amount(newArr)
+      } else {
+        return 0;
+      }
+    } if (useDataFilter && !useFilter) {
+      if (dataState.length > 0) {
+        let newArr = dataState.filter(item => item.day == nameDate)
+        return amount(newArr)
+      } else {
+        return 0;
+      }
     }
-    return amount;
+
+
   }
 
-
+  console.log(activeTab)
 
   let tabsContent = [
     {
@@ -143,7 +179,7 @@ function App() {
       <div className=" flex flex-wrap justify-end    ">
       
       <div className="bg-white rounded-lg py-4 ">
-        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} />
+        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
         <TotalAmount getAmount={getAmount}  />
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
