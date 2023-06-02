@@ -21,7 +21,7 @@ const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 
 function Card(props) {
-  const {  sum, valyt,  category, description, day, id, deleteHandler, editHandler, searchId} = props;
+  const {  sum, valyt,  category, description, day, id, deleteHandler, editHandler,  searchId} = props;
   
   const [editForm, setEditForm] = useState(false);
 
@@ -32,7 +32,7 @@ function Card(props) {
   
 }
 
-  // console.log( editForm)
+  
 
   return (
     <>
@@ -60,7 +60,7 @@ function Card(props) {
           <img className=" " src={pencil} alt="" />
           
         </button>
-        {editForm && <Modal isEditForm={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}/>}
+        {editForm && <Modal isEditForm={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}  giveId={giveId}/>}
 
       </div>
     </div> 

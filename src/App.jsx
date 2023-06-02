@@ -8,6 +8,8 @@ import Statistics from "./statistics/Statistics";
 import Datepick from "./datepicker/Datepicker";
 import "./App.css";
 import Select from "./select/Select";
+import Convert from "./convert/Convert";
+import {useLocalStorage} from "./hooks/useLocalStorage"
 
 
 
@@ -22,7 +24,9 @@ function App() {
   const [useDataFilter, setDataFilter]= useState(false);
   const [nameDate, setNameDate] = useState('');
   
-  // const [editForm, setEditForm] = useState(false);
+  const [transactions, satTransaction]= useLocalStorage([], 'transaction');
+  
+ 
   const category = [
     {name: "All categories"},
     { name: "education" },
@@ -35,16 +39,22 @@ function App() {
     { name: "restaurant" },
     { name: "other" },
   ];
+  
+  function addStorageTransaction(obj){
+    let copyList = [...dataState]
+    copyList.push(obj)
+    obj.id = copyList.length;
+    satTransaction([...copyList]);
+  }
  
 
   function addTransaction(obj) {
     let copyList = [...dataState]
     copyList.push(obj)
     obj.id = copyList.length;
-
     setStateData(copyList)
   }
-
+  
   function deleteTransaction(id) {
     let newList = [...dataState]
     newList = newList.filter(item => item.id != id)
@@ -60,7 +70,7 @@ function App() {
   function getIndexActivaTab(index){
     setActiveTab(index)
   }
-
+  
 
 
   function editForm(form) {
@@ -117,24 +127,24 @@ function App() {
     if (!useFilter && !useDataFilter) {
 
       if (activeTab === 0) {
-        return amount(dataState)
+        return amount(transactions)
       } if (activeTab == 1) {
-        let newArr = dataState.filter(item => item.type == "income")
+        let newArr = transactions.filter(item => item.type == "income")
         return amount(newArr)
       } if (activeTab == 2) {
-        let newArr = dataState.filter(item => item.type == "expense")
+        let newArr = transactions.filter(item => item.type == "expense")
         return amount(newArr)
       }
     } if (useFilter && !useDataFilter ) {
-      if (dataState.length > 0) {
-        let newArr = dataState.filter(item => item.category == filterCategory)
+      if (transactions.length > 0) {
+        let newArr = transactions.filter(item => item.category == filterCategory)
         return amount(newArr)
       } else {
         return 0;
       }
     } if (useDataFilter && !useFilter) {
-      if (dataState.length > 0) {
-        let newArr = dataState.filter(item => item.day == nameDate)
+      if (transactions.length > 0) {
+        let newArr = transactions.filter(item => item.day == nameDate)
         return amount(newArr)
       } else {
         return 0;
@@ -144,7 +154,7 @@ function App() {
 
   }
 
-  console.log(activeTab)
+ 
 
   let tabsContent = [
     {
@@ -166,12 +176,13 @@ function App() {
   
   function getTransactionsFor(type) {
     
-   return dataState.filter(x => type ? x.type == type : true);
+   return transactions.filter(x => type ? x.type == type : true);
    
   }
 
   return (
     <div className="mx-6">
+      {/* <Convert/> */}
       <div className="flex justify-end">
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
       <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
@@ -179,16 +190,15 @@ function App() {
       <div className=" flex flex-wrap justify-end    ">
       
       <div className="bg-white rounded-lg py-4 ">
-        <Tabs data={tabsContent} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
+        <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
         <TotalAmount getAmount={getAmount}  />
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
-        <Modal isEditForm={false} addNewTransaction={addTransaction} />
+        <Modal isEditForm={false} addStorageTransaction={addStorageTransaction} addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
         </div>
-        
       </div>
       <Statistics/>
     </div>
