@@ -145,13 +145,15 @@ function App() {
       amount += Number(arr[i].sum)
       }if(arr[i].valyt != selectValyt && selectValyt === "PLN" ){
         amount += Number(arr[i].sum * course.PLN )
-      }if(arr[i].valyt != selectValyt && selectValyt === "USD"){
-        amount += Number(arr[i].sum * course.USD )
       }if(arr[i].valyt != selectValyt && selectValyt === "EUR"){
         amount += Number(arr[i].sum * course.EUR )
+      }if(arr[i].valyt != selectValyt && selectValyt === "USD" && arr[i].valyt === "PLN"){
+        amount += Number(arr[i].sum / course.PLN )
+      }if(arr[i].valyt != selectValyt && selectValyt === "USD" && arr[i].valyt === "EUR"){
+        amount += Number(arr[i].sum / course.EUR )
       }
-    }
      return Math.round(amount);
+    }
   }
   
   function getAmount() {
