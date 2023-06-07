@@ -10,6 +10,7 @@ import "./App.css";
 import Select from "./select/Select";
 import Convert from "./convert/Convert";
 import {useLocalStorage} from "./hooks/useLocalStorage"
+import CurrencyService from "./services/CurrencyServisce";
 
 
 
@@ -23,7 +24,8 @@ function App() {
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
   const [nameDate, setNameDate] = useState('');
-  
+  const [course, setCourse] = useState({ USD: null, EUR: null, PLN: null})
+  const [selectValyt, setSelectValyt] = useState('')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
   
  
@@ -39,13 +41,29 @@ function App() {
     { name: "restaurant" },
     { name: "other" },
   ];
+
+  // useEffect(()=>{
+  //  const raw =  JSON.parse(localStorage.getItem('transaction')) || dataState
+  //  satTransaction(raw)
+   
+  // })
   
-  function addStorageTransaction(obj){
-    let copyList = [...dataState]
-    copyList.push(obj)
-    obj.id = copyList.length;
-    satTransaction([...copyList]);
-  }
+  useEffect(()=>{
+    satTransaction(dataState);
+  },[dataState])
+
+  const currencyService = new CurrencyService();
+    useEffect(()=> {
+      currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
+    }, [])
+
+    console.log(course)
+  // function addStorageTransaction(){
+  //   // let copyList = [...dataState]
+  //   // copyList.push(obj)
+  //   // obj.id = copyList.length;
+  //   satTransaction(dataState);
+  // }
  
 
   function addTransaction(obj) {
@@ -113,38 +131,51 @@ function App() {
     }
     
   }
-
+  function activeValut(val){
+   
+    setSelectValyt(val)
+  }
  
  
   function amount(arr){
-    let amount = 0;
+
+    let amount =0;
     for (let i = 0; i < arr.length; i++) {
+      if(arr[i].valyt === selectValyt){
       amount += Number(arr[i].sum)
-    } return amount;
+      }if(arr[i].valyt != selectValyt && selectValyt === "PLN" ){
+        amount += Number(arr[i].sum * course.PLN )
+      }if(arr[i].valyt != selectValyt && selectValyt === "USD"){
+        amount += Number(arr[i].sum * course.USD )
+      }if(arr[i].valyt != selectValyt && selectValyt === "EUR"){
+        amount += Number(arr[i].sum * course.EUR )
+      }
+    }
+     return Math.round(amount);
   }
   
   function getAmount() {
     if (!useFilter && !useDataFilter) {
 
       if (activeTab === 0) {
-        return amount(transactions)
+        return amount(dataState)
       } if (activeTab == 1) {
-        let newArr = transactions.filter(item => item.type == "income")
+        let newArr = dataState.filter(item => item.type == "income")
         return amount(newArr)
       } if (activeTab == 2) {
-        let newArr = transactions.filter(item => item.type == "expense")
+        let newArr = dataState.filter(item => item.type == "expense")
         return amount(newArr)
       }
     } if (useFilter && !useDataFilter ) {
-      if (transactions.length > 0) {
-        let newArr = transactions.filter(item => item.category == filterCategory)
+      if (dataState.length > 0) {
+        let newArr = dataState.filter(item => item.category == filterCategory)
         return amount(newArr)
       } else {
         return 0;
       }
     } if (useDataFilter && !useFilter) {
-      if (transactions.length > 0) {
-        let newArr = transactions.filter(item => item.day == nameDate)
+      if (dataState.length > 0) {
+        let newArr = dataState.filter(item => item.day == nameDate)
         return amount(newArr)
       } else {
         return 0;
@@ -176,13 +207,13 @@ function App() {
   
   function getTransactionsFor(type) {
     
-   return transactions.filter(x => type ? x.type == type : true);
+   return dataState.filter(x => type ? x.type == type : true);
    
   }
 
   return (
     <div className="mx-6">
-      {/* <Convert/> */}
+    {/* <Convert/> */}
       <div className="flex justify-end">
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
       <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
@@ -191,10 +222,10 @@ function App() {
       
       <div className="bg-white rounded-lg py-4 ">
         <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
-        <TotalAmount getAmount={getAmount}  />
+        <TotalAmount getAmount={getAmount} activeValut={activeValut} />
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
-        <Modal isEditForm={false} addStorageTransaction={addStorageTransaction} addNewTransaction={addTransaction}  />
+        <Modal isEditForm={false}  addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         

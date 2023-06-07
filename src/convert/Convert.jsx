@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyService from "../services/CurrencyServisce";
 
 function Convert(){
     const [course, setCourse] = useState({ USD: null, EUR: null, PLN: null})
     
     const currencyService = new CurrencyService();
+    useEffect(()=> {
+      currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
+    }, [])
     // setCourse({ USD: res.rates.USD, EUR: res.rates.EUR, PLN: res.rates.PLN})
-    currencyService.getCours().then(res =>  console.log(res) )
+    // currencyService.getCours().then(res =>  console.log(res.data.USD, res.data.PLN, res.data.EUR ))
+    // currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
     console.log(course)
     return(
         <div>

@@ -11,7 +11,7 @@ class CurrencyService{
     }
 
     getCours = () =>{
-        return this.getResource("http://data.fixer.io/api/latest?access_key=dd74c1b5992e382bfa4715f381d3e460");
+        return this.getResource("https://api.freecurrencyapi.com/v1/latest?apikey=ZxywueOOwYqc3NmZbAOtVzfVBqhiwwmQyucoZEUI");
     }
 }
 

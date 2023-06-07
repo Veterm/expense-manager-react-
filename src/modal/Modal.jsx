@@ -12,7 +12,7 @@ import wallet  from '../img/bag.png'
 
 
 function Modal(props) {
-const  {addNewTransaction, isEditForm, onClose, addStorageTransaction} = props;
+const  {addNewTransaction, isEditForm, onClose} = props;
   let [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
   let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet });
@@ -67,7 +67,7 @@ const  {addNewTransaction, isEditForm, onClose, addStorageTransaction} = props;
 
 
   function toggleHandler(enabled){
-    console.log(`toggle`,enabled)
+    
     setForm({...form, type: enabled == true ? 'income' : 'expense'})
   }
 
@@ -211,7 +211,7 @@ const  {addNewTransaction, isEditForm, onClose, addStorageTransaction} = props;
                       disabled={isDis}
                       
                       className="inline-flex justify-center text-center rounded-md border border-transparent bg-rose-100 px-4 py-3 text-sm font-medium text-gray-800 hover:bg-rose-400 hover:text-red-50 disabled:hover:bg-rose-100 disabled:hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={() => { closeModal(), addNewTransaction(form), onSubmitHandler(), addStorageTransaction(form) }}
+                      onClick={() => { closeModal(), addNewTransaction(form), onSubmitHandler()}}
                       
                     >
                       Add new transaction
