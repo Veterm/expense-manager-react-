@@ -152,8 +152,9 @@ function App() {
       }if(arr[i].valyt != selectValyt && selectValyt === "USD" && arr[i].valyt === "EUR"){
         amount += Number(arr[i].sum / course.EUR )
       }
-     return Math.round(amount);
     }
+     return Math.round(amount);
+    
   }
   
   function getAmount() {
