@@ -17,7 +17,8 @@ import CurrencyService from "./services/CurrencyServisce";
 
 
 function App() {
-  const [dataState, setStateData] = useState(data);
+  
+  const [lol, setLol] = useState();
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
   const [filterCategory, setCategory] = useState('');
@@ -25,9 +26,41 @@ function App() {
   const [useDataFilter, setDataFilter]= useState(false);
   const [nameDate, setNameDate] = useState('');
   const [course, setCourse] = useState({ USD: null, EUR: null, PLN: null})
-  const [selectValyt, setSelectValyt] = useState('')
+  const [selectValyt, setSelectValyt] = useState('PLN')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
-  
+  const [dataState, setStateData] = useState(transactions);
+  const [statistics, setStatistics] = useState({
+    labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
+
+    datasets: [{
+      label: 'PLN',
+      data: arrForStatisticsExpensSumm(transactions).map(item => item.sum),
+      backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+    }],
+  })
+  const [statisticRevenue, setStatisticRevenue] = useState({
+    labels: dataState.filter(item => item.type == 'income').map((data) => data.day),
+
+    datasets: [{
+      label: 'revenue',
+      data: dataState.filter(item => item.type == 'income').map((data) => data.sum),
+      backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+    }],
+  })
+  const [comparsion, setComparsion] = useState({
+    labels: dataState.map((data) => data.day),
+
+    datasets: [{
+      label: 'expense',
+      data: dataState.filter(item => item.type == 'expense').map((data) => data.sum),
+      backgroundColor: ['#831843'],
+    },{
+      label: 'revenue',
+      data: dataState.filter(item => item.type == 'income').map((data) => data.sum),
+      backgroundColor: ['	#a3a3a3'],
+    }
+  ],
+  })
  
   const category = [
     {name: "All categories"},
@@ -42,35 +75,146 @@ function App() {
     { name: "other" },
   ];
 
-  // useEffect(()=>{
-  //  const raw =  JSON.parse(localStorage.getItem('transaction')) || dataState
-  //  satTransaction(raw)
-   
-  // })
+  
   
   useEffect(()=>{
     satTransaction(dataState);
   },[dataState])
+
+  useEffect(()=>{
+    setStatistics({
+      labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
+  
+      datasets: [{
+        label: 'PLN',
+        data: arrForStatisticsExpensSumm(transactions).map(item => item.sum),
+        backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+      }],
+    });
+  },[transactions])
 
   const currencyService = new CurrencyService();
     useEffect(()=> {
       currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
     }, [])
 
-    console.log(course)
+    function arrForStatisticsExpens(arr){
+ 
+    }
+    useEffect(()=>{
+      satTransaction(dataState);
+    },[dataState])
+
+    function arrForStatisticsExpensSumm(arr){
+      let filtredCategory = [];
+      let PLN = course.PLN
+      let mass =  arr.filter(item => item.type == 'expense')
+      let categories = [...new Set(mass.map(x => x.category))]
+      let values = []
+      console.log(categories)
+      // for(let i = 0; i < mass.length; i++){
+      //   if(!filtredCategory.includes(mass[i])){
+      //     filtredCategory.push({category: mass[i].category, sum: mass[i].sum, valyt: mass[i].valyt})
+      //   }   
+      // }
+      // console.log(`arrForStatisticsExpensSumm`, filtredCategory)
+      // for(let i = 0; i < filtredCategory.length; i++){
+      //   for(let j = 0; j < i; j++){
+      //     if(filtredCategory[i].category == filtredCategory[j].category){
+      //       filtredCategory[i].sum = String(+filtredCategory[j].sum + +filtredCategory[i].sum)
+      //       filtredCategory.splice(j ,1)
+      //     }
+      //   }
+      // }
+      
+      // for(let i = 0; i < filtredCategory.length; i++){
+      //   if(filtredCategory[i].valyt == 'EUR'){
+      //     filtredCategory[i].sum = Math.round(filtredCategory[i].sum * PLN)
+      //   }if(filtredCategory[i].valyt == 'USD'){
+      //     filtredCategory[i].sum = Math.round(filtredCategory[i].sum  * PLN)
+      //   }
+
+      // }
+      for(let i = 0; i < categories.length; i++){
+        let val = mass.filter(x => x.category === categories[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+        values.push(val.toString())
+      }
+      console.log(values)
+      
+      return filtredCategory
+    }
+
+
+ 
+//  function arrForStatisticsExpensSumm(arr){
+//   let filtredChartExpens = [];
+//   let filtredCategory = []
+//   let massCategory =  arr.filter(item => item.type == 'expense').map((data) => data.category)
+//   let mass =  arr.filter(item => item.type == 'expense')
+//   for(let i = 0; i < massCategory.length; i++){
+//     if (!filtredCategory.includes(massCategory[i])) {
+//       filtredCategory.push(massCategory[i])
+//     }
+//   }
+
+//   for(let i = 0; i < mass.length; i++){
+//     if(filtredCategory[i] != filtredChartExpens[i].category){
+//       filtredChartExpens.push({category: mass[i].category, sum: mass[i].sum})
+//     }if(filtredCategory[i] == filtredChartExpens[i].category){
+    
+//      }
+//   }
+//   return filtredChartExpens
+    
+  //   console.log(transactions.filter(item => item.type == 'expense').map((data) => data.category) `spisok`)
+  
+  //  console.log(course)
   // function addStorageTransaction(){
   //   // let copyList = [...dataState]
   //   // copyList.push(obj)
   //   // obj.id = copyList.length;
   //   satTransaction(dataState);
   // }
- 
+  // function convertValut(arr){
+  //   for (let i = 0; i < arr.length; i++) {
+      
+  //     if(arr[i].valyt  === "EUR"){
+  //       arr[i].sum = Math.round(Number(arr[i].sum * course.PLN))
+  //       console.log(arr[i].sum)
+  //     }if(arr[i].valyt  === "USD" ){
+  //       arr[i].sum = Math.round(Number(arr[i].sum / course.PLN ))
+  //     }
+      
+  //   } 
+  //   return arr;
+  // }
+
+  
+  function convertVa(){
+    
+    for (let i = 0; i < arr.length; i++) {
+      
+          if(arr[i].valyt  === "EUR"){
+            arr[i].sum = Math.round(Number(arr[i].sum * course.PLN))
+            
+          }if(arr[i].valyt  === "USD" ){
+            arr[i].sum = Math.round(Number(arr[i].sum / course.PLN ))
+          }
+          
+        } 
+        return arr;
+  }
+   
+  
+
 
   function addTransaction(obj) {
-    let copyList = [...dataState]
+    let copyList = [...transactions]
     copyList.push(obj)
+ 
     obj.id = copyList.length;
     setStateData(copyList)
+    
   }
   
   function deleteTransaction(id) {
@@ -132,13 +276,16 @@ function App() {
     
   }
   function activeValut(val){
-   
-    setSelectValyt(val)
+     
+      setSelectValyt(val)
+    
+    
+    // setSelectValyt('PLN')
   }
  
  
   function amount(arr){
-
+ 
     let amount =0;
     for (let i = 0; i < arr.length; i++) {
       if(arr[i].valyt === selectValyt){
@@ -152,14 +299,15 @@ function App() {
       }if(arr[i].valyt != selectValyt && selectValyt === "USD" && arr[i].valyt === "EUR"){
         amount += Number(arr[i].sum / course.EUR )
       }
-    }
+    } 
      return Math.round(amount);
-    
+     
   }
   
   function getAmount() {
+    
     if (!useFilter && !useDataFilter) {
-
+      
       if (activeTab === 0) {
         return amount(dataState)
       } if (activeTab == 1) {
@@ -170,6 +318,7 @@ function App() {
         return amount(newArr)
       }
     } if (useFilter && !useDataFilter ) {
+     
       if (dataState.length > 0) {
         let newArr = dataState.filter(item => item.category == filterCategory)
         return amount(newArr)
@@ -177,6 +326,7 @@ function App() {
         return 0;
       }
     } if (useDataFilter && !useFilter) {
+      
       if (dataState.length > 0) {
         let newArr = dataState.filter(item => item.day == nameDate)
         return amount(newArr)
@@ -223,18 +373,18 @@ function App() {
       </div>
       <div className=" flex flex-wrap justify-end    ">
       
-      <div className="bg-white rounded-lg py-4 ">
+      <div className="bg-white rounded-lg py-4 z-10 ">
         <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
-        <TotalAmount getAmount={getAmount} activeValut={activeValut} />
+        <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} />
         
-        <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8 z-10 text-left">
+        <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
         <Modal isEditForm={false}  addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
         </div>
       </div>
-      <Statistics/>
+      <Statistics chartData={statistics} comparsion={comparsion} income={statisticRevenue} />
     </div>
     )
 }

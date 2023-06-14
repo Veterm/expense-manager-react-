@@ -3,9 +3,9 @@ import { Fragment, useEffect, useState } from "react";
 
 import Datepick from "../datepicker/Datepicker";
 
-function TotalAmount({getAmount, activeValut}){
+function TotalAmount({getAmount, activeValut, data}){
     const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
-    const [valut, setValut] = useState(''); 
+    const [valut, setValut] = useState('PLN'); 
 
     function currencyHandler(name){
         let v = '';
@@ -22,10 +22,10 @@ function TotalAmount({getAmount, activeValut}){
       
 
     return(
-        <div className="flex justify-center mt-5 ">
-        <div className=" z-40 flex  justify-between text-center  px-10 pt-3 text-lg font-base font-bold border-t-4 border-pink-900 text-pink-900     ">
-        <h2 className=" mt-1 pr-4">Total amount: {getAmount()} {valut} </h2>
-        <Select items={currency} onChange={currencyHandler} handleCategory={currencyHandler}/>
+        <div className="flex justify-center mt-5  ">
+        <div className="  flex  justify-between text-center  px-10 pt-3 text-lg font-base font-bold border-t-4 border-pink-900 text-pink-900     ">
+        <h2 className=" mt-1 pr-4">Total amount: {getAmount(data)} {valut} </h2>
+        <Select name={'PLN'} items={currency} onChange={currencyHandler} handleCategory={currencyHandler}/>
         </div>
         
         </div>
