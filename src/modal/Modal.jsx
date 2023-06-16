@@ -68,10 +68,13 @@ const  {addNewTransaction, isEditForm, onClose} = props;
 
   function toggleHandler(enabled){
     
-    setForm({...form, type: enabled == true ? 'income' : 'expense'})
+    setForm({...form, type: enabled == true   ? 'income' : 'expense'})
   }
 
   function categoryHandler(name){
+    // if( name == 'salary'){
+    //   setForm({...form,  type : "income"})
+    // }
     setForm({...form, category: name})
 
   }
@@ -216,7 +219,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
                     >
                       Add new transaction
                     </button>
-                    <Toggle name="type" enabled={form.type == "income"} toggleHandler={toggleHandler} />
+                    <Toggle name="type" enabled={form.type == "income" } toggleHandler={toggleHandler} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

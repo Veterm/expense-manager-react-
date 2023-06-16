@@ -39,24 +39,24 @@ function App() {
     }],
   })
   const [statisticRevenue, setStatisticRevenue] = useState({
-    labels: dataState.filter(item => item.type == 'income').map((data) => data.day),
+    labels:arrForStatisticsRevenue(transactions).map(item => item.day),
 
     datasets: [{
-      label: 'revenue',
-      data: dataState.filter(item => item.type == 'income').map((data) => data.sum),
+      label: 'PLN',
+      data: arrForStatisticsRevenue(transactions).map((data) => data.sum),
       backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
     }],
   })
   const [comparsion, setComparsion] = useState({
-    labels: dataState.map((data) => data.day),
+    labels: arrForStatisticsCompare(transactions)[2],
 
     datasets: [{
       label: 'expense',
-      data: dataState.filter(item => item.type == 'expense').map((data) => data.sum),
+      data: arrForStatisticsCompare(transactions)[0].map(item => item.sum),
       backgroundColor: ['#831843'],
     },{
       label: 'revenue',
-      data: dataState.filter(item => item.type == 'income').map((data) => data.sum),
+      data: arrForStatisticsCompare(transactions)[1].map(item => item.sum),
       backgroundColor: ['	#a3a3a3'],
     }
   ],
@@ -78,6 +78,23 @@ function App() {
   
   
   useEffect(()=>{
+    setComparsion({
+      labels: arrForStatisticsCompare(transactions)[2],
+
+    datasets: [{
+      label: 'expense',
+      data: arrForStatisticsCompare(transactions)[0].map(item => item.sum),
+      backgroundColor: ['#831843'],
+    },{
+      label: 'revenue',
+      data: arrForStatisticsCompare(transactions)[1].map(item => item.sum),
+      backgroundColor: ['	#a3a3a3'],
+    }
+  ],
+    });
+  },[transactions])
+
+  useEffect(()=>{
     satTransaction(dataState);
   },[dataState])
 
@@ -98,100 +115,132 @@ function App() {
       currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
     }, [])
 
-    function arrForStatisticsExpens(arr){
- 
-    }
+   
     useEffect(()=>{
-      satTransaction(dataState);
-    },[dataState])
+      setStatisticRevenue({labels:arrForStatisticsRevenue(transactions).map(item => item.day),
 
+        datasets: [{
+          label: 'PLN',
+          data: arrForStatisticsRevenue(transactions).map((data) => data.sum),
+          backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+        }],});
+    },[transactions])
+
+    function arrForStatisticsRevenue(arr){
+      let mass =  arr.filter(item => item.type == 'income')
+      let day = [...new Set(mass.map(x => x.day))]
+      let values = []
+      let val1= []
+      for(let i = 0; i < mass.length; i++){ 
+        val1.push({ day: mass[i].day, sum: mass[i].sum, valyt: mass[i].valyt}) 
+      }
+      for(let i = 0; i < val1.length; i++){
+        if(val1[i].valyt == 'EUR'){
+          val1[i].sum = String(Math.round(val1[i].sum * course.PLN))
+        }if(val1[i].valyt == 'USD'){
+          val1[i].sum = String(Math.round(val1[i].sum  * course.PLN))
+        }
+      }
+
+      for(let i = 0; i < day.length; i++){
+        
+        let val = val1.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+        let curr = val1.filter(x => x.day === day[i]).map(x => x.valyt).reduce((a) => a.length > 1 ? a : a)
+        values.push({ day: day[i], sum: val.toString(), valyt: curr.toString()}) 
+      }
+
+
+      
+      return values
+    }
+    
+   function arrForStatisticsCompare(arr){
+ 
+
+    let massIn =  arr.filter(item => item.type == 'income')
+    let massEx =  arr.filter(item => item.type == 'expense')
+    let day = [...new Set(arr.map(x => x.day))]
+    let values = []
+    let val1=[]
+    let valuesEx =[]
+    let valuesIn =[]
+    
+    for(let i = 0; i < massIn.length; i++){ 
+      
+      val1.push({ day: massIn[i].day, sum: massIn[i].sum, valyt: massIn[i].valyt}) 
+    }
+    for(let i = 0; i < val1.length; i++){
+      if(val1[i].valyt == 'EUR'){
+        val1[i].sum = String(Math.round(val1[i].sum * course.PLN))
+      }if(val1[i].valyt == 'USD'){
+        val1[i].sum = String(Math.round(val1[i].sum  * course.PLN))
+      }
+    }
+
+    for(let i = 0; i < day.length; i++){
+        
+      let val = val1.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+      valuesIn.push({ day: day[i], sum: val.toString()}) 
+      
+    }
+    
+
+  
+    
+    
+    for(let i = 0; i < massEx.length; i++){ 
+      
+      values.push({ day: massEx[i].day, sum: massEx[i].sum, valyt: massEx[i].valyt}) 
+    }
+    for(let i = 0; i < values.length; i++){
+      if(values[i].valyt == 'EUR'){
+        values[i].sum = String(Math.round(values[i].sum * course.PLN))
+      }if(values[i].valyt == 'USD'){
+        values[i].sum = String(Math.round(values[i].sum  * course.PLN))
+      }
+    }
+    
+    for(let i = 0; i < day.length; i++){
+        
+      let val = values.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+      valuesEx.push({ day: day[i], sum: val.toString()}) 
+      
+    }
+
+   
+    return  [valuesEx, valuesIn, day]
+
+   }
+  
+  
     function arrForStatisticsExpensSumm(arr){
      let mass =  arr.filter(item => item.type == 'expense')
       let categories = [...new Set(mass.map(x => x.category))]
       let values = []
+      let val1 =[]
+
+      for(let i = 0; i < mass.length; i++){ 
+        val1.push({ category: mass[i].category, sum: mass[i].sum, valyt: mass[i].valyt}) 
+      }
+      for(let i = 0; i < val1.length; i++){
+        if(val1[i].valyt == 'EUR'){
+          val1[i].sum = String(Math.round(val1[i].sum * course.PLN))
+        }if(val1[i].valyt == 'USD'){
+          val1[i].sum = String(Math.round(val1[i].sum  * course.PLN))
+        }
+      }
    
       for(let i = 0; i < categories.length; i++){
         
-        let val = mass.filter(x => x.category === categories[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
-        let curr = mass.filter(x => x.category === categories[i]).map(x => x.valyt).reduce((a) => a.length > 1 ? a : a)
+        let val = val1.filter(x => x.category === categories[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+        let curr = val1.filter(x => x.category === categories[i]).map(x => x.valyt).reduce((a) => a.length > 1 ? a : a)
         values.push({ category: categories[i], sum: val.toString(), valyt: curr.toString()}) 
       }
-      for(let i = 0; i < values.length; i++){
-          if(values[i].valyt == 'EUR'){
-            values[i].sum = String(Math.round(values[i].sum * course.PLN))
-          }if(values[i].valyt == 'USD'){
-            values[i].sum = String(Math.round(values[i].sum  * course.PLN))
-          }
-  
-        }
-      console.log(values)
-
-      return values
+    return values
     }
 
 
  
-//  function arrForStatisticsExpensSumm(arr){
-//   let filtredChartExpens = [];
-//   let filtredCategory = []
-//   let massCategory =  arr.filter(item => item.type == 'expense').map((data) => data.category)
-//   let mass =  arr.filter(item => item.type == 'expense')
-//   for(let i = 0; i < massCategory.length; i++){
-//     if (!filtredCategory.includes(massCategory[i])) {
-//       filtredCategory.push(massCategory[i])
-//     }
-//   }
-
-//   for(let i = 0; i < mass.length; i++){
-//     if(filtredCategory[i] != filtredChartExpens[i].category){
-//       filtredChartExpens.push({category: mass[i].category, sum: mass[i].sum})
-//     }if(filtredCategory[i] == filtredChartExpens[i].category){
-    
-//      }
-//   }
-//   return filtredChartExpens
-    
-  //   console.log(transactions.filter(item => item.type == 'expense').map((data) => data.category) `spisok`)
-  
-  //  console.log(course)
-  // function addStorageTransaction(){
-  //   // let copyList = [...dataState]
-  //   // copyList.push(obj)
-  //   // obj.id = copyList.length;
-  //   satTransaction(dataState);
-  // }
-  // function convertValut(arr){
-  //   for (let i = 0; i < arr.length; i++) {
-      
-  //     if(arr[i].valyt  === "EUR"){
-  //       arr[i].sum = Math.round(Number(arr[i].sum * course.PLN))
-  //       console.log(arr[i].sum)
-  //     }if(arr[i].valyt  === "USD" ){
-  //       arr[i].sum = Math.round(Number(arr[i].sum / course.PLN ))
-  //     }
-      
-  //   } 
-  //   return arr;
-  // }
-
-  
-  function convertVa(){
-    
-    for (let i = 0; i < arr.length; i++) {
-      
-          if(arr[i].valyt  === "EUR"){
-            arr[i].sum = Math.round(Number(arr[i].sum * course.PLN))
-            
-          }if(arr[i].valyt  === "USD" ){
-            arr[i].sum = Math.round(Number(arr[i].sum / course.PLN ))
-          }
-          
-        } 
-        return arr;
-  }
-   
-  
-
 
   function addTransaction(obj) {
     let copyList = [...transactions]
@@ -270,7 +319,7 @@ function App() {
  
  
   function amount(arr){
- 
+    
     let amount =0;
     for (let i = 0; i < arr.length; i++) {
       if(arr[i].valyt === selectValyt){
