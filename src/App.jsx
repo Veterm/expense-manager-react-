@@ -106,42 +106,27 @@ function App() {
     },[dataState])
 
     function arrForStatisticsExpensSumm(arr){
-      let filtredCategory = [];
-      let PLN = course.PLN
-      let mass =  arr.filter(item => item.type == 'expense')
+     let mass =  arr.filter(item => item.type == 'expense')
       let categories = [...new Set(mass.map(x => x.category))]
       let values = []
-      console.log(categories)
-      // for(let i = 0; i < mass.length; i++){
-      //   if(!filtredCategory.includes(mass[i])){
-      //     filtredCategory.push({category: mass[i].category, sum: mass[i].sum, valyt: mass[i].valyt})
-      //   }   
-      // }
-      // console.log(`arrForStatisticsExpensSumm`, filtredCategory)
-      // for(let i = 0; i < filtredCategory.length; i++){
-      //   for(let j = 0; j < i; j++){
-      //     if(filtredCategory[i].category == filtredCategory[j].category){
-      //       filtredCategory[i].sum = String(+filtredCategory[j].sum + +filtredCategory[i].sum)
-      //       filtredCategory.splice(j ,1)
-      //     }
-      //   }
-      // }
-      
-      // for(let i = 0; i < filtredCategory.length; i++){
-      //   if(filtredCategory[i].valyt == 'EUR'){
-      //     filtredCategory[i].sum = Math.round(filtredCategory[i].sum * PLN)
-      //   }if(filtredCategory[i].valyt == 'USD'){
-      //     filtredCategory[i].sum = Math.round(filtredCategory[i].sum  * PLN)
-      //   }
-
-      // }
+   
       for(let i = 0; i < categories.length; i++){
+        
         let val = mass.filter(x => x.category === categories[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
-        values.push(val.toString())
+        let curr = mass.filter(x => x.category === categories[i]).map(x => x.valyt).reduce((a) => a.length > 1 ? a : a)
+        values.push({ category: categories[i], sum: val.toString(), valyt: curr.toString()}) 
       }
+      for(let i = 0; i < values.length; i++){
+          if(values[i].valyt == 'EUR'){
+            values[i].sum = String(Math.round(values[i].sum * course.PLN))
+          }if(values[i].valyt == 'USD'){
+            values[i].sum = String(Math.round(values[i].sum  * course.PLN))
+          }
+  
+        }
       console.log(values)
-      
-      return filtredCategory
+
+      return values
     }
 
 
