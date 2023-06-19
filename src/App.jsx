@@ -18,9 +18,10 @@ import CurrencyService from "./services/CurrencyServisce";
 
 function App() {
   
-  const [lol, setLol] = useState();
+ 
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
+ 
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -39,11 +40,11 @@ function App() {
     }],
   })
   const [statisticRevenue, setStatisticRevenue] = useState({
-    labels:arrForStatisticsRevenue(transactions).map(item => item.day),
+    labels:arrForStatisticsCompare(transactions)[2],
 
     datasets: [{
       label: 'PLN',
-      data: arrForStatisticsRevenue(transactions).map((data) => data.sum),
+      data: arrForStatisticsCompare(transactions)[1].map(item => item.sum),
       backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
     }],
   })
@@ -117,58 +118,77 @@ function App() {
 
    
     useEffect(()=>{
-      setStatisticRevenue({labels:arrForStatisticsRevenue(transactions).map(item => item.day),
-
+      setStatisticRevenue({
+        labels:arrForStatisticsCompare(transactions)[2],
+    
         datasets: [{
           label: 'PLN',
-          data: arrForStatisticsRevenue(transactions).map((data) => data.sum),
+          data: arrForStatisticsCompare(transactions)[1].map(item => item.sum),
           backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
-        }],});
+        }],
+      });
     },[transactions])
 
-    function arrForStatisticsRevenue(arr){
-      let mass =  arr.filter(item => item.type == 'income')
-      let day = [...new Set(mass.map(x => x.day))]
-      let values = []
-      let val1= []
-      for(let i = 0; i < mass.length; i++){ 
-        val1.push({ day: mass[i].day, sum: mass[i].sum, valyt: mass[i].valyt}) 
-      }
-      for(let i = 0; i < val1.length; i++){
-        if(val1[i].valyt == 'EUR'){
-          val1[i].sum = String(Math.round(val1[i].sum * course.PLN))
-        }if(val1[i].valyt == 'USD'){
-          val1[i].sum = String(Math.round(val1[i].sum  * course.PLN))
-        }
-      }
 
-      for(let i = 0; i < day.length; i++){
-        
-        let val = val1.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
-        let curr = val1.filter(x => x.day === day[i]).map(x => x.valyt).reduce((a) => a.length > 1 ? a : a)
-        values.push({ day: day[i], sum: val.toString(), valyt: curr.toString()}) 
-      }
-
-
-      
-      return values
-    }
-    
-   function arrForStatisticsCompare(arr){
  
 
+   function arrForStatisticsCompare(arr){
+    
     let massIn =  arr.filter(item => item.type == 'income')
     let massEx =  arr.filter(item => item.type == 'expense')
     let day = [...new Set(arr.map(x => x.day))]
+    let valuesRevenue=[]
     let values = []
     let val1=[]
     let valuesEx =[]
     let valuesIn =[]
-    
+    let valInRev
+
+    for(let i = 0; i<day.length; i++){
+      let day1 = day[i];
+      let year = day1.substring(6, 10)
+      let mounth = day1.substring(3, 5)
+      let dateoF = day1.substring(0, 2)
+      let dateTransact = String(year + '-' + mounth + '-' + dateoF)
+      let date = (new Date(dateTransact));
+      
+      day[i]= date
+      }
+      day.sort((date1, date2) => date1 - date2)
+      for(let i = 0; i<day.length; i++){
+        let monthName = day[i].toLocaleString('default', { month: 'long' }) + ' ' + day[i].getFullYear();
+        day[i] = monthName
+      }
+      
+     
+      let day1 = [...new Set(day)]
+      
+     
+     
+     
     for(let i = 0; i < massIn.length; i++){ 
       
       val1.push({ day: massIn[i].day, sum: massIn[i].sum, valyt: massIn[i].valyt}) 
     }
+    
+    // console.log(transactions)
+     
+    for(let i = 0; i<val1.length; i++){
+      let day1 = val1[i].day;
+      let year = day1.substring(6, 10)
+      let mounth = day1.substring(3, 5)
+      let dateoF = day1.substring(0, 2)
+      let dateTransact = String(year + '-' + mounth + '-' + dateoF)
+      let date = new Date(dateTransact);
+      let monthName = date.toLocaleString('default', { month: 'long' }) + ' ' + year;
+      let dateMonth = date.getDate()+ ' '+ date.toLocaleString('default', { month: 'long' })
+      val1[i].day= monthName
+      
+      }
+
+
+        
+
     for(let i = 0; i < val1.length; i++){
       if(val1[i].valyt == 'EUR'){
         val1[i].sum = String(Math.round(val1[i].sum * course.PLN))
@@ -177,14 +197,15 @@ function App() {
       }
     }
 
-    for(let i = 0; i < day.length; i++){
+    for(let i = 0; i < day1.length; i++){
         
-      let val = val1.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
-      valuesIn.push({ day: day[i], sum: val.toString()}) 
+      let val = val1.filter(x => x.day === day1[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+      valuesIn.push({ day: day1[i], sum: val.toString() })
+      
+      
       
     }
     
-
   
     
     
@@ -192,6 +213,18 @@ function App() {
       
       values.push({ day: massEx[i].day, sum: massEx[i].sum, valyt: massEx[i].valyt}) 
     }
+
+    for(let i = 0; i<values.length; i++){
+      let day1 = values[i].day;
+      let year = day1.substring(6, 10)
+      let mounth = day1.substring(3, 5)
+      let dateoF = day1.substring(0, 2)
+      let dateTransact = String(year + '-' + mounth + '-' + dateoF)
+      let date = new Date(dateTransact);
+      let monthName = date.toLocaleString('default', { month: 'long' }) + ' ' + year;
+      values[i].day= monthName
+      }
+
     for(let i = 0; i < values.length; i++){
       if(values[i].valyt == 'EUR'){
         values[i].sum = String(Math.round(values[i].sum * course.PLN))
@@ -200,15 +233,15 @@ function App() {
       }
     }
     
-    for(let i = 0; i < day.length; i++){
+    for(let i = 0; i < day1.length; i++){
         
-      let val = values.filter(x => x.day === day[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
-      valuesEx.push({ day: day[i], sum: val.toString()}) 
+      let val = values.filter(x => x.day === day1[i]).map(x => +x.sum).reduce((partialSum, a) => partialSum + a, 0)
+      valuesEx.push({ day: day1[i], sum: val.toString()}) 
       
     }
-
+    
    
-    return  [valuesEx, valuesIn, day]
+    return  [valuesEx, valuesIn, day1]
 
    }
   
@@ -243,9 +276,13 @@ function App() {
  
 
   function addTransaction(obj) {
+    if(obj.category == 'salary'){
+      obj.type = 'income'
+    }
+    
     let copyList = [...transactions]
     copyList.push(obj)
- 
+    
     obj.id = copyList.length;
     setStateData(copyList)
     

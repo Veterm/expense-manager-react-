@@ -16,7 +16,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
   let [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
   let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet });
- 
+  
   let [isDis, setIsDis] = useState(true);
   
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
@@ -33,6 +33,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
     { name: "other" },
   ];
  
+  
   
   function onSubmitHandler() {
     setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet,   })
@@ -72,17 +73,18 @@ const  {addNewTransaction, isEditForm, onClose} = props;
   }
 
   function categoryHandler(name){
-    // if( name == 'salary'){
-    //   setForm({...form,  type : "income"})
-    // }
+  
+    
     setForm({...form, category: name})
-
+    
   }
   function currencyHandler(name){
+    // if( name == 'salary'){
+    //   setSlary = true 
+    // }
     setForm({...form, valyt: name})
   }
  
-
   function handler(e){
     setForm({...form, [e.target.name]: e.target.value })
   }
@@ -94,6 +96,8 @@ const  {addNewTransaction, isEditForm, onClose} = props;
      setForm({...form, [e.target.name]: dayy })
    
   }
+
+ 
   
   
   
@@ -219,7 +223,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
                     >
                       Add new transaction
                     </button>
-                    <Toggle name="type" enabled={form.type == "income" } toggleHandler={toggleHandler} />
+                    <Toggle name="type" enabled={form.type  == "income" || (form.category == 'salary') } toggleHandler={toggleHandler} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
