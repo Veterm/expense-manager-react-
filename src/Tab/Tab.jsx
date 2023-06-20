@@ -9,13 +9,14 @@ import data from "../data/ModelData";
 function Tabs(props) {
   
   const { data, deleteHandler, editHandler,  searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate} = props;
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [filterData, setFilterData] = useState(0)
   const lupa = <div className="flex justify-center mt-44 mx-40 px-1">
   <img className=" " src={empty} alt="" />
 </div>;
 
 
-
+// setFilterData(data.filter(x => useFilter ? x.category == filterCategory : true))
+// console.log(filterData)
 // function activeIndex(index){
 //   searchIndexTab(index)
 // }

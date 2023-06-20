@@ -8,7 +8,7 @@ import Statistics from "./statistics/Statistics";
 import Datepick from "./datepicker/Datepicker";
 import "./App.css";
 import Select from "./select/Select";
-import Convert from "./convert/Convert";
+import CreditCard from "./creditCard/CreditCard";
 import {useLocalStorage} from "./hooks/useLocalStorage"
 import CurrencyService from "./services/CurrencyServisce";
 
@@ -21,7 +21,7 @@ function App() {
  
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
- 
+  const [summaCard, setSummaCard] = useState(0)
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -129,7 +129,29 @@ function App() {
       });
     },[transactions])
 
-
+    useEffect(()=>{
+      if(useDataFilter){
+      setStatistics({
+        labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
+    
+        datasets: [{
+          label: 'PLN',
+          data: arrForStatisticsExpensSumm(transactions).map(item => item.sum),
+          backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+        }],
+      });
+    }else{
+      setStatistics({
+        labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
+    
+        datasets: [{
+          label: 'PLN',
+          data: arrForStatisticsExpensSumm(transactions).map(item => item.sum),
+          backgroundColor: ['#72262b', '	#500724', '#ad737d', '#d8ccce', '	#be185d', '#ffb5a7', '#ff4d6d', 'ff8fa3'],
+        }],
+      });
+    }
+    },[useDataFilter])
  
 
    function arrForStatisticsCompare(arr){
@@ -245,8 +267,14 @@ function App() {
 
    }
   
+   
   
     function arrForStatisticsExpensSumm(arr){
+      if(useDataFilter){
+        arr = arr.filter(item=> item.day == nameDate)
+      }
+     
+     
      let mass =  arr.filter(item => item.type == 'expense')
       let categories = [...new Set(mass.map(x => x.category))]
       let values = []
@@ -330,7 +358,7 @@ function App() {
     }
   }
 
- 
+
 
   function filterDate(date){
     if(date != ''){
@@ -350,8 +378,7 @@ function App() {
      
       setSelectValyt(val)
     
-    
-    // setSelectValyt('PLN')
+ 
   }
  
  
@@ -380,7 +407,9 @@ function App() {
     if (!useFilter && !useDataFilter) {
       
       if (activeTab === 0) {
+        setSummaCard(amount(dataState))
         return amount(dataState)
+        
       } if (activeTab == 1) {
         let newArr = dataState.filter(item => item.type == "income")
         return amount(newArr)
@@ -438,12 +467,15 @@ function App() {
   return (
     <div className="mx-6">
     {/* <Convert/> */}
-      <div className="flex justify-end">
+      <div className="flex justify-end ">
+      
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
       <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
       </div>
       <div className=" flex flex-wrap justify-end    ">
-      
+      <div>
+      <CreditCard summaCard={summaCard}/> 
+      </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
         <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
         <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} />

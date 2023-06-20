@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./src/**/*.{html,js}", "./node_modules/tw-elements/dist/js/**/*.js",],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'zebra':"url('/img/zebra.png')"
+      }
+    },
   },
   plugins: [require("tw-elements/dist/plugin")],
   darkMode: "class",

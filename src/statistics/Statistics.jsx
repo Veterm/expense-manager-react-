@@ -23,7 +23,7 @@ function Statistics({chartData, income, comparsion}){
         </div>
         <div className=" flex  flex-wrap   justify-between  ">
             
-            <div className="bg-white w-1/3 rounded-lg h-56">
+            <div className="bg-white w-auto rounded-lg h-56">
             <Bar data={comparsion} options={ {
                     plugins: {
                       title: {
@@ -38,7 +38,7 @@ function Statistics({chartData, income, comparsion}){
                     }}/>
             </div>
             
-            <div className="flex bg-white w-2/4 rounded-lg h-56 justify-between">
+            <div className="flex bg-white w-auto rounded-lg h-56 justify-between">
             
             {chartData.labels.length == 0 ? <div className='flex flex-col my-20 ml-24  text-pink-900 font-bold'>No data for expense statistics{lupa}</div>:       <Doughnut data={chartData} options={ {
                     plugins: {
