@@ -21,7 +21,7 @@ function App() {
  
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
-  const [summaCard, setSummaCard] = useState(0)
+  // const [summaCard, setSummaCard] = useState(0)
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -30,6 +30,7 @@ function App() {
   const [selectValyt, setSelectValyt] = useState('PLN')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
   const [dataState, setStateData] = useState(transactions);
+  const [summInDoll, setSummInDoll] = useState(0)
   const [statistics, setStatistics] = useState({
     labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
 
@@ -323,6 +324,7 @@ function App() {
     setStateData(newList)
   }
   
+  
 
   function getIdForm(idActiveForm) {
     setActiveTran(idActiveForm)
@@ -377,11 +379,40 @@ function App() {
   function activeValut(val){
      
       setSelectValyt(val)
-    
- 
   }
  
  
+  
+ function amountDollar(arr){
+  let copy = arr.filter(item => item.type == "income")
+  let copy2 = arr.filter(item => item.type == "expense")
+  let amount2= 0;
+  let amount =0;
+  for (let i = 0; i < copy.length; i++){
+    if(copy[i].valyt === 'USD'){
+      amount += Number(copy[i].sum)
+      }if(copy[i].valyt  === "PLN"){
+        amount += Number(copy[i].sum / course.PLN )
+      }if(copy[i].valyt  === "EUR"){
+        amount += Number(copy[i].sum / course.EUR )
+      }
+  }
+
+  for (let i = 0; i < copy2.length; i++){
+    if(copy2[i].valyt === 'USD'){
+      amount2 += Number(copy2[i].sum)
+      }if(copy2[i].valyt  === "PLN"){
+        amount2 += Number(copy2[i].sum / course.PLN )
+      }if(copy2[i].valyt  === "EUR"){
+        amount2 += Number(copy2[i].sum / course.EUR )
+      }
+  }
+  return [amount, amount2]
+ }
+
+
+ 
+
   function amount(arr){
     
     let amount =0;
@@ -403,25 +434,27 @@ function App() {
   }
   
   function getAmount() {
-    
+    let copy = dataState.filter(item => item.type == "income")
+    // setSummaCard(amount((copy)).toFixed(2))
     if (!useFilter && !useDataFilter) {
       
       if (activeTab === 0) {
-        setSummaCard(amount(dataState))
-        return amount(dataState)
+        
+        return Math.round(amount(dataState))
         
       } if (activeTab == 1) {
         let newArr = dataState.filter(item => item.type == "income")
-        return amount(newArr)
+        
+        return amount((newArr))
       } if (activeTab == 2) {
         let newArr = dataState.filter(item => item.type == "expense")
-        return amount(newArr)
+        return amount((newArr))
       }
     } if (useFilter && !useDataFilter ) {
      
       if (dataState.length > 0) {
         let newArr = dataState.filter(item => item.category == filterCategory)
-        return amount(newArr)
+        return amount((newArr))
       } else {
         return 0;
       }
@@ -429,7 +462,7 @@ function App() {
       
       if (dataState.length > 0) {
         let newArr = dataState.filter(item => item.day == nameDate)
-        return amount(newArr)
+        return amount((newArr))
       } else {
         return 0;
       }
@@ -474,7 +507,7 @@ function App() {
       </div>
       <div className=" flex flex-wrap justify-end    ">
       <div>
-      <CreditCard summaCard={summaCard}/> 
+      <CreditCard amountDollar={amountDollar} data={dataState}/> 
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
         <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />

@@ -44,7 +44,7 @@ function Datepick({dateFilter, closeHandler}){
         }
       }
       onBlur={(e) => (e.currentTarget.type = "text")}
-      className=" text-left -z-10 w-28 pl-2 rounded-md border-0   my-1  pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
+      className=" text-left -z-10 w-28 pl-2 rounded-md border-0 py-0  my-1  pr-5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:outline-none focus:outline-offset-0 focus:ring-inset focus:ring-rose-200 sm:text-sm sm:leading-6"
       placeholder="Date filter"
     />
     <div className="absolute inset-y-0 right-0 pt-1.5 pr-1 hover:opacity-75  ">
