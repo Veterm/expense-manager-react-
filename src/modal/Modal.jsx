@@ -30,6 +30,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
     { name: "entertainment" },
     { name: "products" },
     { name: "restaurant" },
+    { name: "card replenishment"},
     { name: "other" },
   ];
  
@@ -223,7 +224,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
                     >
                       Add new transaction
                     </button>
-                    <Toggle name="type" enabled={form.type  == "income" || (form.category == 'salary') } toggleHandler={toggleHandler} />
+                    <Toggle name="type" enabled={form.type  == "income" || (form.category == 'salary') || (form.category == 'card replenishment') } toggleHandler={toggleHandler} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

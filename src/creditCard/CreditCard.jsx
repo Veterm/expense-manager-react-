@@ -1,15 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import { Progress } from "@material-tailwind/react";
 import { Progress } from 'flowbite-react';
 import mastercard from '../img/mastercard.png'
 import zebra from '../img/zebra.png'
 
 
-function CreditCard({amountDollar, data }){
+function CreditCard({amountDollar, data, addNewBankCard}){
+    const [addCard, setAddCard] = useState(false);
+
+    useEffect(() => {
+        addNewBankCard(addCard)
     
-      
-       
+      }, [addCard])
+    
+    function addBankkCard(){
         
+        setAddCard(true)
+        
+    }  
+       
+    
     
     
     function integer() {
@@ -17,7 +27,7 @@ function CreditCard({amountDollar, data }){
         let intIncome= Math.round(amountDollar(data)[0]).toString()
         let intIncomeDot= new Intl.NumberFormat('en-US').format(intIncome)
         let intExpense = Math.round(amountDollar(data)[1]).toString()
-        let init = Number(intIncome) - Number(intExpense)
+        let init = Number(intIncome) - (Number(intIncome) - Number(intExpense))
         let intLimit = new Intl.NumberFormat('en-US').format(init)
         // if(intLimit == 0 || intLimit < 0){
         //     intIncome = 0
@@ -26,11 +36,12 @@ function CreditCard({amountDollar, data }){
         return [intDot, intIncome, intLimit, intIncomeDot, completed ]
     }
 
-    console.log(integer()[4])
+   
     
     
     return(
-        <div className="flex  place-content-center  w-96 h-48">
+        <div className="flex   w-auto h-48 pr-5">
+            
             <div>
             
             <div className="  flex bg-red-100 justify-between drop-shadow-xl w-72 h-44 rounded-lg ">
@@ -50,19 +61,19 @@ function CreditCard({amountDollar, data }){
             </div>
             <img className="rounded-lg relative w-72 opacity-5 " src={zebra} alt="" />
              </div>
-             {/* <div className='h-5 w-full bg-zinc-50 mt-4 rounded-3xl'>
-                <div className='h-full w-[--completed] bg-rose-900 rounded-3xl'>
-             <span>{`${completed}%`}</span>
-             </div>
-             </div> */}
+             
             <div className="w-full  mt-6">
                 <div className='flex  text-gray-500 justify-between text-lg'>
-                <h1 className='text-sm pt-2'>Card limit</h1>
+                <h1 className='text-sm pt-2'>Budget limit</h1>
                 <h1>${integer()[2]}/${integer()[3]}</h1>
                 </div>
             <Progress  className='bg-rose-50 text-rose-800' progress={integer()[4]} color='dark'/>
              </div>
-             </div>
+             
+        {!addCard ? <div className=" mt-8 flex   drop-shadow-xl w-72 h-44 rounded-lg ">
+            <button onClick={addBankkCard}  className='text-zinc-600 font-serif text-6xl rounded-lg w-72 h-44 border-red-200  hover:opacity-90 from-red-100 via-red-100 to-zinc-100 hover:bg-gradient-to-bl focus:ring-4 focus:ring-red-100 dark:focus:ring-red-400'>+</button>
+        </div> : ''}
+        </div>
         </div>
 
     )

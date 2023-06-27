@@ -15,7 +15,7 @@ import pencil from "./../img/pencil.png"
 
 
    
-const icons = { education: shop, selfcare: shop , salary: wallet ,  travel: car , transport: car, entertainment: game ,restaurant:food,  products: food ,  other: shop }
+const icons = { "education": shop, "selfcare": shop , 'salary': wallet ,  "travel": car , "transport": car, "entertainment": game ,"restaurant":food,  "products": food , 'card replenishment': wallet,  "other": shop }
 const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 

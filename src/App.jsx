@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import Tabs from "./Tab/Tab";
+import Accounts from "./accounts/Accounts";
 import data from "./data/ModelData";
 import TotalAmount from "./amount/Amount";
 import Modal from "./modal/Modal";
@@ -21,7 +22,7 @@ function App() {
  
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
-  // const [summaCard, setSummaCard] = useState(0)
+  const [addBankCard, setAddBankCard] = useState(false)
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -74,6 +75,7 @@ function App() {
     { name: "entertainment" },
     { name: "products" },
     { name: "restaurant" },
+    { name: "card replenishment"},
     { name: "other" },
   ];
 
@@ -305,7 +307,7 @@ function App() {
  
 
   function addTransaction(obj) {
-    if(obj.category == 'salary'){
+    if(obj.category == 'salary' || obj.category == 'card replenishment' ){
       obj.type = 'income'
     }
     
@@ -314,9 +316,14 @@ function App() {
     
     obj.id = copyList.length;
     setStateData(copyList)
-    
   }
-  
+    
+ 
+  function addNewBankCard(boo){
+    setAddBankCard(boo)
+} 
+console.log(addBankCard)
+
   function deleteTransaction(id) {
     let newList = [...dataState]
     newList = newList.filter(item => item.id != id)
@@ -439,8 +446,9 @@ function App() {
     if (!useFilter && !useDataFilter) {
       
       if (activeTab === 0) {
-        
-        return Math.round(amount(dataState))
+        let newArrIn = dataState.filter(item => item.type == "income")
+        let newArrEx = dataState.filter(item => item.type == "expense")
+        return (amount(newArrIn)- amount(newArrEx))
         
       } if (activeTab == 1) {
         let newArr = dataState.filter(item => item.type == "income")
@@ -506,8 +514,12 @@ function App() {
       <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
       </div>
       <div className=" flex flex-wrap justify-end    ">
-      <div>
-      <CreditCard amountDollar={amountDollar} data={dataState}/> 
+        <div className="mr-64">
+      <Accounts/>
+      </div>
+      <div className=" space-y-20">
+      {addBankCard && <CreditCard amountDollar={amountDollar} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard}  />}
+      <CreditCard amountDollar={amountDollar} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} /> 
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
         <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
