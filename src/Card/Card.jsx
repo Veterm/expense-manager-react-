@@ -10,7 +10,8 @@ import car  from '../img/Trasnport.png'
 import wallet  from '../img/bag.png'
 import trash from "./../img/trash.png"
 import pencil from "./../img/pencil.png"
-
+import panda from '../img/pandalittl.png'
+import koala from '../img/koalalittl.png'
 
 
 
@@ -21,7 +22,7 @@ const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 
 function Card(props) {
-  const {  sum, valyt,  category, description, day, id, deleteHandler, editHandler,  searchId} = props;
+  const {  sum, valyt,  category, description, day, id, deleteHandler, editHandler, user,  searchId, activeUser} = props;
   
   const [editForm, setEditForm] = useState(false);
 
@@ -31,8 +32,14 @@ function Card(props) {
     setEditForm(!editForm)
   
 }
-
-  
+  function activeUserIcon(){
+    if(activeUser == 'panda'){
+      return panda
+    }if(activeUser == 'Koala'){
+      return koala
+    }
+  }
+ 
 
   return (
     <>
@@ -58,8 +65,8 @@ function Card(props) {
       </button>
       <button type="button" onClick={()=>{editTransaction(), searchId(id)}} className=" pl-1.5 hover:opacity-75 pt-2 ">
           <img className=" " src={pencil} alt="" />
-          
         </button>
+        <img className="w-6 h-6 mt-3 ml-0.5"src={user == 'panda'? panda : koala} alt="" />
         {editForm && <Modal isEditForm={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}  />}
 
       </div>

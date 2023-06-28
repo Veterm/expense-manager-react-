@@ -6,6 +6,7 @@ import empty from "../img/empty.png"
 
 
 
+
 function Statistics({chartData, income, comparsion}){
     
  

@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react'
 import { Progress } from 'flowbite-react';
 import mastercard from '../img/mastercard.png'
 import zebra from '../img/zebra.png'
+import panda from '../img/pandalittl.png'
+import koala from '../img/koalalittl.png'
 
 
-function CreditCard({amountDollar, data, addNewBankCard}){
+function CreditCard({amountDollar, data, addNewBankCard, activeUser}){
     const [addCard, setAddCard] = useState(false);
 
     useEffect(() => {
@@ -48,7 +50,7 @@ function CreditCard({amountDollar, data, addNewBankCard}){
             <img className="pl-7 pt-3 absolute z-20 h-16" src={mastercard} alt="" />
             <div className="pt-4 ml-40 pl-6 absolute pr-4  text-base text-right text-gray-500 ">
             <h1 className="font-semibold tracking-wider">8765 4646</h1>
-            <h2>Name user</h2>
+            <img className="ml-12 rounded-full border-2 border-white" src={activeUser == 'panda'? panda : koala} alt="" />
             </div>
             <div className=' blur bg-white/80 h-24 w-72  rounded-b-lg  border-black justify-end absolute mt-20'>
             </div>

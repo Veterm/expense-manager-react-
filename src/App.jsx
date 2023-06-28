@@ -12,7 +12,8 @@ import Select from "./select/Select";
 import CreditCard from "./creditCard/CreditCard";
 import {useLocalStorage} from "./hooks/useLocalStorage"
 import CurrencyService from "./services/CurrencyServisce";
-
+import panda from './img/pandalittl.png'
+import koala from './img/koalalittl.png'
 
 
 
@@ -27,6 +28,7 @@ function App() {
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
   const [nameDate, setNameDate] = useState('');
+  const [activeUser, setActiveUser] = useState('')
   const [course, setCourse] = useState({ USD: null, EUR: null, PLN: null})
   const [selectValyt, setSelectValyt] = useState('PLN')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
@@ -303,7 +305,13 @@ function App() {
     return values
     }
 
-
+     function activeUserIcon(){
+    if(activeUser == 'panda'){
+      return panda
+    }if(activeUser == 'koala'){
+      return koala
+    }
+  }
  
 
   function addTransaction(obj) {
@@ -313,7 +321,7 @@ function App() {
     
     let copyList = [...transactions]
     copyList.push(obj)
-    
+    obj.user = activeUser;
     obj.id = copyList.length;
     setStateData(copyList)
   }
@@ -322,7 +330,7 @@ function App() {
   function addNewBankCard(boo){
     setAddBankCard(boo)
 } 
-console.log(addBankCard)
+
 
   function deleteTransaction(id) {
     let newList = [...dataState]
@@ -417,8 +425,14 @@ console.log(addBankCard)
   return [amount, amount2]
  }
 
-
+ function clickOnPanda(){
+  setActiveUser('panda')
+}
+function clickOnCoala(){
+  setActiveUser('koala')
+}
  
+
 
   function amount(arr){
     
@@ -508,25 +522,25 @@ console.log(addBankCard)
   return (
     <div className="mx-6">
     {/* <Convert/> */}
-      <div className="flex justify-end ">
-      
+      <div className="flex   ">
+      <h1 className=" text-zinc-300 justify-items-start text-lg mr-60 pr-64 pl-8 my-1">Account</h1>
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
-      <h1 className=" text-zinc-300 text-lg justify-end mr-6 ml-28 pl-1  my-1" >Recent Transaction</h1>
+      <h1 className=" text-zinc-300 text-lg justify-end  pl-28  my-1" >Recent Transaction</h1>
       </div>
       <div className=" flex flex-wrap justify-end    ">
         <div className="mr-64">
-      <Accounts/>
+      <Accounts clickOnPanda={clickOnPanda} clickOnCoala={clickOnCoala}/>
       </div>
       <div className=" space-y-20">
       {addBankCard && <CreditCard amountDollar={amountDollar} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard}  />}
-      <CreditCard amountDollar={amountDollar} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} /> 
+      <CreditCard amountDollar={amountDollar} activeUser={activeUser} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} /> 
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
-        <Tabs data={tabsContent}  deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
+        <Tabs data={tabsContent} activeUser={activeUser} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
         <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} />
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
-        <Modal isEditForm={false}  addNewTransaction={addTransaction}  />
+        <Modal isEditForm={false} activeUser={activeUser} addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         

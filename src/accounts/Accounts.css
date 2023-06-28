@@ -1,0 +1,14 @@
+.first_block {
+    display: block;
+    
+  }
+  
+  .second_block {
+    display: none;
+    
+  }
+  
+  .first_block:hover .second_block {
+    display: block;
+    
+  }

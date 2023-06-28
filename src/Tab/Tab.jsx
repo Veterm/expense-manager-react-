@@ -8,7 +8,7 @@ import data from "../data/ModelData";
 
 function Tabs(props) {
   
-  const { data, deleteHandler, editHandler,  searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate} = props;
+  const { data, deleteHandler, editHandler,  searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate, activeUser} = props;
   const [filterData, setFilterData] = useState(0)
   const lupa = <div className="flex justify-center mt-44 mx-40 px-1">
   <img className=" " src={empty} alt="" />
@@ -82,10 +82,11 @@ function Tabs(props) {
                     category={x.category}
                     day={x.day}
                     id={x.id}
+                    user={x.user}
                     deleteHandler={deleteHandler}
                     editHandler={editHandler}
                     searchId={searchId}
-                    
+                    activeUser={activeUser}
                   />
 
                     ))}

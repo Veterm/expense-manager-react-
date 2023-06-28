@@ -31,7 +31,7 @@ function Datepick({dateFilter, closeHandler}){
   // console.log(closeFilter)
 
   return (
-    <div className="relative">
+    <div className="relative ml-20 pl-2">
     <input
       type="text"
       name="day"

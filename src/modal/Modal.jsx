@@ -12,10 +12,10 @@ import wallet  from '../img/bag.png'
 
 
 function Modal(props) {
-const  {addNewTransaction, isEditForm, onClose} = props;
+const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
   let [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
-  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet });
+  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
   
   let [isDis, setIsDis] = useState(true);
   
@@ -37,7 +37,7 @@ const  {addNewTransaction, isEditForm, onClose} = props;
   
   
   function onSubmitHandler() {
-    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet,   })
+    setForm({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: '', icon: wallet })
   }
   
   function closeModal() {
@@ -65,7 +65,13 @@ const  {addNewTransaction, isEditForm, onClose} = props;
     return !res
   }
 
-
+  // function activeUserIcon(){
+  //   if(activeUser == 'panda'){
+  //     return panda
+  //   }if(activeUser == 'Koala'){
+  //     return koala
+  //   }
+  // }
 
 
   function toggleHandler(enabled){
