@@ -7,7 +7,7 @@ import panda from '../img/pandalittl.png'
 import koala from '../img/koalalittl.png'
 
 
-function CreditCard({amountDollar, data, addNewBankCard, activeUser}){
+function CreditCard({amountDollar, data, addNewBankCard, infoCard, user}){
     const [addCard, setAddCard] = useState(false);
 
     useEffect(() => {
@@ -48,9 +48,9 @@ function CreditCard({amountDollar, data, addNewBankCard, activeUser}){
             
             <div className="  flex bg-red-100 justify-between drop-shadow-xl w-72 h-44 rounded-lg ">
             <img className="pl-7 pt-3 absolute z-20 h-16" src={mastercard} alt="" />
-            <div className="pt-4 ml-40 pl-6 absolute pr-4  text-base text-right text-gray-500 ">
-            <h1 className="font-semibold tracking-wider">8765 4646</h1>
-            <img className="ml-12 rounded-full border-2 border-white" src={activeUser == 'panda'? panda : koala} alt="" />
+            <div className="pt-4 pl-6 absolute pr-4  text-base text-right text-gray-500 ">
+            {infoCard ? <h1 className="font-semibold ml-40 tracking-wider">{infoCard.card_number}</h1> : <h1 className="font-semibold ml-36 tracking-wider">Card number</h1>}
+            <img className="ml-52 mt-2 rounded-full border-2   border-white" src={user} alt="" />
             </div>
             <div className=' blur bg-white/80 h-24 w-72  rounded-b-lg  border-black justify-end absolute mt-20'>
             </div>
@@ -58,8 +58,8 @@ function CreditCard({amountDollar, data, addNewBankCard, activeUser}){
             <h1 className=' text-xs  text-gray-500'>Bank Card</h1>   
             <h1 className='text-gray-500 pl-8 text-lg'><b>$ {integer()[1]}</b>{integer()[0]}</h1> 
             </div>
-            <div className='absolute mt-28  h-7 w-14 border-4  border-rose-200 rounded-full ml-52 '>
-            <h1 className='text-gray-500 pt-0.5 font-bold text-xs'>07/24</h1>
+            <div className='absolute mt-28  h-7 w-12 border-4  border-rose-200 rounded-full ml-56 '>
+            {infoCard ? <h1 className='text-gray-500 pt-0.5 font-bold text-xs'>{infoCard.card_m}/{infoCard.card_y}</h1> : <h1 className='text-gray-500  font-bold text-xs'>m/y</h1>}
             </div>
             <img className="rounded-lg relative w-72 opacity-5 " src={zebra} alt="" />
              </div>
@@ -72,9 +72,9 @@ function CreditCard({amountDollar, data, addNewBankCard, activeUser}){
             <Progress  className='bg-rose-50 text-rose-800' progress={integer()[4]} color='dark'/>
              </div>
              
-        {!addCard ? <div className=" mt-8 flex   drop-shadow-xl w-72 h-44 rounded-lg ">
+        {/* {!addCard ? <div className=" mt-8 flex   drop-shadow-xl w-72 h-44 rounded-lg ">
             <button onClick={addBankkCard}  className='text-zinc-600 font-serif text-6xl rounded-lg w-72 h-44 border-red-200  hover:opacity-90 from-red-100 via-red-100 to-zinc-100 hover:bg-gradient-to-bl focus:ring-4 focus:ring-red-100 dark:focus:ring-red-400'>+</button>
-        </div> : ''}
+        </div> : ''} */}
         </div>
         </div>
 

@@ -7,6 +7,9 @@ import TotalAmount from "./amount/Amount";
 import Modal from "./modal/Modal";
 import Statistics from "./statistics/Statistics";
 import Datepick from "./datepicker/Datepicker";
+import CardData from "./creditCard/CardData";
+
+
 import "./App.css";
 import Select from "./select/Select";
 import CreditCard from "./creditCard/CreditCard";
@@ -28,12 +31,18 @@ function App() {
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
   const [nameDate, setNameDate] = useState('');
-  const [activeUser, setActiveUser] = useState('')
+  
   const [course, setCourse] = useState({ USD: null, EUR: null, PLN: null})
   const [selectValyt, setSelectValyt] = useState('PLN')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
+  const [userStorage, setUserStorage] = useLocalStorage([], 'user');
   const [dataState, setStateData] = useState(transactions);
-  const [summInDoll, setSummInDoll] = useState(0)
+  const [filterUser, setFilterUser] = useState('')
+  const [activeUser, setActiveUser] = useState(userStorage)
+  const [infoCardPanda, setInfoCardPanda]= useState('')
+  const [infoCardKoala, setInfoCardKoala]= useState('')
+  const [useFilterUserPanda, setUseFilterUserPanda] = useState(false)
+  const [useFilterUserKoala, setUseFilterUserKoala] = useState(false)
   const [statistics, setStatistics] = useState({
     labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
 
@@ -81,7 +90,7 @@ function App() {
     { name: "other" },
   ];
 
-  
+  console.log(activeUser)
   
   useEffect(()=>{
     setComparsion({
@@ -103,6 +112,10 @@ function App() {
   useEffect(()=>{
     satTransaction(dataState);
   },[dataState])
+
+  useEffect(()=>{
+    setUserStorage(activeUser)
+  },[activeUser])
 
   useEffect(()=>{
     setStatistics({
@@ -305,13 +318,13 @@ function App() {
     return values
     }
 
-     function activeUserIcon(){
-    if(activeUser == 'panda'){
-      return panda
-    }if(activeUser == 'koala'){
-      return koala
-    }
-  }
+  //    function activeUserIcon(){
+  //   if(activeUser == 'panda'){
+  //     return panda
+  //   }if(activeUser == 'koala'){
+  //     return koala
+  //   }
+  // }
  
 
   function addTransaction(obj) {
@@ -326,7 +339,15 @@ function App() {
     setStateData(copyList)
   }
     
- 
+ function getInfoBankCard(info){
+  if(info.user == 'panda'){
+    setInfoCardPanda(info)
+  }else(
+    setInfoCardKoala(info)
+  )
+  
+ }
+
   function addNewBankCard(boo){
     setAddBankCard(boo)
 } 
@@ -375,6 +396,21 @@ function App() {
     }
   }
 
+  function userFilterHandlerPanda(name){
+    if(name != undefined ){
+      setUseFilterUserKoala(false)
+      setUseFilterUserPanda(!useFilterUserPanda)
+      setFilterUser(name)
+    }
+  }
+  function userFilterHandlerKoala(name){
+    if(name != undefined  ){
+      setUseFilterUserPanda(false)
+      setUseFilterUserKoala(!useFilterUserKoala)
+      setFilterUser(name)
+    }
+  }
+ 
 
 
   function filterDate(date){
@@ -529,18 +565,21 @@ function clickOnCoala(){
       </div>
       <div className=" flex flex-wrap justify-end    ">
         <div className="mr-64">
-      <Accounts clickOnPanda={clickOnPanda} clickOnCoala={clickOnCoala}/>
+      <Accounts clickOnPanda={clickOnPanda} clickOnCoala={clickOnCoala} activeUser={activeUser}/>
       </div>
+      <div >
       <div className=" space-y-20">
-      {addBankCard && <CreditCard amountDollar={amountDollar} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard}  />}
-      <CreditCard amountDollar={amountDollar} activeUser={activeUser} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} /> 
+     <CreditCard amountDollar={amountDollar} infoCard={infoCardPanda} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} user={panda}  />
+      <CreditCard amountDollar={amountDollar} infoCard={infoCardKoala} activeUser={activeUser} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} user={koala}/> 
+      </div>
+      <CardData getInfoBankCard={getInfoBankCard}/>
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
-        <Tabs data={tabsContent} activeUser={activeUser} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
-        <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} />
+        <Tabs data={tabsContent} activeUser={activeUser} filterUser={filterUser} useFilterUserKoala={useFilterUserKoala} useFilterUserPanda={useFilterUserPanda} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
+        <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
-        <Modal isEditForm={false} activeUser={activeUser} addNewTransaction={addTransaction}  />
+        <Modal isEditForm={false}  addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
