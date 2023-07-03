@@ -7,21 +7,21 @@ import panda from '../img/pandalittl.png'
 import koala from '../img/koalalittl.png'
 
 
-function CreditCard({amountDollar, data, addNewBankCard, infoCard, user}){
+function CreditCard({amountDollar, data, infoCard, user}){
     const [addCard, setAddCard] = useState(false);
 
-    useEffect(() => {
-        addNewBankCard(addCard)
+    // useEffect(() => {
+    //     addNewBankCard(addCard)
     
-      }, [addCard])
+    //   }, [addCard])
     
-    function addBankkCard(){
+    // function addBankkCard(){
         
-        setAddCard(true)
+    //     setAddCard(true)
         
-    }  
+    // }  
        
-    
+    console.log(infoCard)
     
     
     function integer() {

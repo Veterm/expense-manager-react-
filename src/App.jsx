@@ -26,7 +26,7 @@ function App() {
  
   const [activTran, setActiveTran] = useState('');
   const [activeTab, setActiveTab] = useState(0);
-  const [addBankCard, setAddBankCard] = useState(false)
+  // const [addBankCard, setAddBankCard] = useState(false)
   const [filterCategory, setCategory] = useState('');
   const [useFilter, setUseFilter] = useState(false);
   const [useDataFilter, setDataFilter]= useState(false);
@@ -36,11 +36,22 @@ function App() {
   const [selectValyt, setSelectValyt] = useState('PLN')
   const [transactions, satTransaction]= useLocalStorage([], 'transaction');
   const [userStorage, setUserStorage] = useLocalStorage([], 'user');
+
+
+  // const INITIAL_STATE = {
+  //   user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
+  //   isFetching: false,
+  //   error: false,
+  // };
+
+  const [storageInfoCardKoala, setStorageInfoCardKoala] = useLocalStorage([], 'Koala' )
+  const [storageInfoCardPanda, setStorageInfoCardPanda] = useLocalStorage([], 'Panda' )
+  //  const [storageInfoCardKoala, setStorageInfoCardKoala] = useLocalStorage([], 'cards_infoKoala' )
   const [dataState, setStateData] = useState(transactions);
   const [filterUser, setFilterUser] = useState('')
   const [activeUser, setActiveUser] = useState(userStorage)
-  const [infoCardPanda, setInfoCardPanda]= useState('')
-  const [infoCardKoala, setInfoCardKoala]= useState('')
+  const [infoCardPanda, setInfoCardPanda]= useState(storageInfoCardPanda)
+  const [infoCardKoala, setInfoCardKoala]= useState(storageInfoCardKoala)
   const [useFilterUserPanda, setUseFilterUserPanda] = useState(false)
   const [useFilterUserKoala, setUseFilterUserKoala] = useState(false)
   const [statistics, setStatistics] = useState({
@@ -90,7 +101,7 @@ function App() {
     { name: "other" },
   ];
 
-  console.log(activeUser)
+console.log(infoCardPanda)
   
   useEffect(()=>{
     setComparsion({
@@ -116,6 +127,14 @@ function App() {
   useEffect(()=>{
     setUserStorage(activeUser)
   },[activeUser])
+
+  useEffect(()=>{
+    setStorageInfoCardPanda(infoCardPanda)
+  },[infoCardPanda])
+
+  useEffect(()=>{
+    setStorageInfoCardKoala(infoCardKoala)
+  },[infoCardKoala])
 
   useEffect(()=>{
     setStatistics({
@@ -318,13 +337,7 @@ function App() {
     return values
     }
 
-  //    function activeUserIcon(){
-  //   if(activeUser == 'panda'){
-  //     return panda
-  //   }if(activeUser == 'koala'){
-  //     return koala
-  //   }
-  // }
+
  
 
   function addTransaction(obj) {
@@ -348,9 +361,9 @@ function App() {
   
  }
 
-  function addNewBankCard(boo){
-    setAddBankCard(boo)
-} 
+//   function addNewBankCard(boo){
+//     setAddBankCard(boo)
+// } 
 
 
   function deleteTransaction(id) {
@@ -432,7 +445,15 @@ function App() {
       setSelectValyt(val)
   }
  
- 
+  // function dataPandaCard(){
+  //   let newArr = dataState.filter(item => item.user == 'panda')
+  //   return newArr
+  // }
+
+  // function dataKoalaCard(){
+  //   let newArr = dataState.filter(item => item.user == 'koala')
+  //   return newArr
+  // }
   
  function amountDollar(arr){
   let copy = arr.filter(item => item.type == "income")
@@ -569,8 +590,8 @@ function clickOnCoala(){
       </div>
       <div >
       <div className=" space-y-20">
-     <CreditCard amountDollar={amountDollar} infoCard={infoCardPanda} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} user={panda}  />
-      <CreditCard amountDollar={amountDollar} infoCard={infoCardKoala} activeUser={activeUser} data={dataState} addBankCard={addBankCard} addNewBankCard={addNewBankCard} user={koala}/> 
+     <CreditCard amountDollar={amountDollar} infoCard={infoCardPanda} data={dataState.filter(item => item.user == 'panda')}   user={panda}  />
+      <CreditCard amountDollar={amountDollar} infoCard={infoCardKoala} data={dataState.filter(item => item.user == 'koala')}   user={koala}/> 
       </div>
       <CardData getInfoBankCard={getInfoBankCard}/>
       </div>
