@@ -577,7 +577,7 @@ function clickOnCoala(){
   }
 
   return (
-    <div className=" border-2  rounded-lg bg-greyBG my-4 pb-2">
+    <div className=" border-2 border-red-500 rounded-lg bg-greyBG my-4 pb-2">
     <div className="mx-6">
     {/* <Convert/> */}
       <div className="flex   ">
