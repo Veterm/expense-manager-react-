@@ -29,7 +29,7 @@ function CreditCard({amountDollar, data, infoCard, user}){
     }
 
    
-    
+    console.log(integer()[1])
     
     return(
         <div className="flex   w-auto h-48 pr-5">
@@ -45,7 +45,7 @@ function CreditCard({amountDollar, data, infoCard, user}){
             <div className=' blur bg-white/80 h-24 w-72  rounded-b-lg  border-black justify-end absolute mt-20'>
             </div>
             <div className='absolute mt-24 pt-3 '>
-            <h1 className=' text-xs  text-gray-500'>Bank Card</h1>   
+            <h1 className={`text-xs  text-gray-500 ${integer()[1] ==0 ? ' pl-8' : 'pl-3'}`} >Bank Card</h1>   
             <h1 className='text-gray-500 pl-8 text-lg'><b>$ {integer()[1]}</b>{integer()[0]}</h1> 
             </div>
             <div className='absolute mt-28  h-7 w-12 border-4  border-rose-200 rounded-full ml-56 '>

@@ -7,6 +7,9 @@
         'pinkis': '#831843',
         'greyBG' : '#E8E8E8'
       },
+      spacing: {
+        '128': '42rem',
+      },
       backgroundImage:{
         'zebra':"url('/img/zebra.png')"
       }

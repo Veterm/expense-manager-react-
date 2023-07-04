@@ -101,7 +101,7 @@ function App() {
     { name: "other" },
   ];
 
-console.log(infoCardPanda)
+
   
   useEffect(()=>{
     setComparsion({
@@ -608,7 +608,7 @@ function clickOnCoala(){
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
         <Tabs data={tabsContent} activeUser={activeUser} filterUser={filterUser} useFilterUserKoala={useFilterUserKoala} useFilterUserPanda={useFilterUserPanda} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
-        <TotalAmount getAmount={getAmount} data={dataState} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
+        <TotalAmount getAmount={getAmount}  data={dataState} useFilterUserPanda={useFilterUserPanda} useFilterUserKoala={useFilterUserKoala} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
         <Modal isEditForm={false}  addNewTransaction={addTransaction}  />

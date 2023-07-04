@@ -13,11 +13,11 @@ import wallet  from '../img/bag.png'
 
 function Modal(props) {
 const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
-  let [isOpen, setIsOpen] = useState(isEditForm);
+  const [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
-  let [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
+  const [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
   
-  let [isDis, setIsDis] = useState(true);
+  const [isDis, setIsDis] = useState(true);
   
   const currency = [ {name: 'PLN'}, {name: 'USD'}, {name: 'EUR'}];
   const category = [
@@ -55,6 +55,7 @@ const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
   }, [isOpen])
 
   useEffect(() => {
+   
     setIsDis(dis())
   }, [form])
   
@@ -114,6 +115,7 @@ const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
     {isEditForm? '' : <div className=" inline inset-0 flex items-center justify-center">
         <button
           type="button"
+          
           onClick={openModal}
           className="rounded-md  bg-pink-900 drop-shadow-xl px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >

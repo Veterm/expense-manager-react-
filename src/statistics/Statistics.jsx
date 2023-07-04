@@ -24,8 +24,8 @@ function Statistics({chartData, income, comparsion}){
         </div>
         <div className=" flex  flex-wrap   justify-between ">
             
-            <div className="bg-white w-auto pt-6 w-96 pr-5 rounded-lg h-56">
-          {comparsion.labels.length == 0? <div className='py-12 pl-20'>{lupa}</div> : <Bar data={comparsion} options={ {
+            <div className="bg-white w-92 pt-6 w-96 pr-5 rounded-lg h-56">
+          {comparsion.labels.length == 0? <div className='py-12 px-16 ml-2'>{lupa}</div> : <Bar data={comparsion} options={ {
                     plugins: {
                       title: {
                         display: true,
@@ -39,9 +39,9 @@ function Statistics({chartData, income, comparsion}){
                     }}/>}
             </div>
             
-            <div className="flex bg-white w-auto rounded-lg h-56 justify-between">
+            <div className="flex bg-white w-128 rounded-lg h-56 space-x-2 justify-center">
             
-            {chartData.labels.length == 0 ? <div className='flex flex-col my-20 ml-24  text-pink-900 pr-4 font-bold'>No data for expense statistics{lupa}</div>:       <Doughnut data={chartData} options={ {
+            {chartData.labels.length == 0 ? <div className='flex flex-col my-20   text-pink-900  font-bold'>No data for expense statistics{lupa}</div>:       <Doughnut data={chartData} options={ {
                     plugins: {
                       title: {
                         display: true,
@@ -55,7 +55,7 @@ function Statistics({chartData, income, comparsion}){
                     }}/>}
 
       
-{income.labels.length == 0 ? <div className='flex flex-col my-20 mr-24  text-pink-900 font-bold'>No data for income statistics{lupa}</div> :
+{income.labels.length == 0 ? <div className='flex flex-col my-20 mr-20  text-pink-900 font-bold'>No data for income statistics{lupa}</div> :
   <Line data={income} options={ {
                     plugins: {
                       title: {
