@@ -1,5 +1,5 @@
 #root {
-  width: 100%;
+  width: 72rem;
   margin: 0 auto;
   
   text-align: center;
@@ -26,5 +26,5 @@
 }
 
 .read-the-docs {
-  color: #888;
+  /* color: #888; */
 }

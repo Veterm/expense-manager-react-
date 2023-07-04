@@ -577,12 +577,13 @@ function clickOnCoala(){
   }
 
   return (
+    <div className=" border-2  rounded-lg bg-greyBG my-4 pb-2">
     <div className="mx-6">
     {/* <Convert/> */}
       <div className="flex   ">
-      <h1 className=" text-zinc-300 justify-items-start text-lg mr-60 pr-64 pl-8 my-1">Account</h1>
+      <h1 className=" text-zinc-300 justify-items-start text-lg mr-60 pr-64 pl-12 my-1">Account</h1>
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
-      <h1 className=" text-zinc-300 text-lg justify-end  pl-28  my-1" >Recent Transaction</h1>
+      <h1 className=" text-zinc-300 text-lg justify-end  pl-32  my-1" >Recent Transaction</h1>
       </div>
       <div className=" flex flex-wrap justify-end    ">
         <div className="mr-64">
@@ -607,6 +608,7 @@ function clickOnCoala(){
         </div>
       </div>
       <Statistics chartData={statistics} comparsion={comparsion} income={statisticRevenue} />
+    </div>
     </div>
     )
 }

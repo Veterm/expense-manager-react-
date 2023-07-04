@@ -5,6 +5,7 @@
     extend: {
       colors: {
         'pinkis': '#831843',
+        'greyBG' : '#E8E8E8'
       },
       backgroundImage:{
         'zebra':"url('/img/zebra.png')"
