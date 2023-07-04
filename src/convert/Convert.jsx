@@ -11,7 +11,7 @@ function Convert(){
     // setCourse({ USD: res.rates.USD, EUR: res.rates.EUR, PLN: res.rates.PLN})
     // currencyService.getCours().then(res =>  console.log(res.data.USD, res.data.PLN, res.data.EUR ))
     // currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
-    console.log(course)
+    // console.log(course)
     return(
         <div>
         <input type="number" />

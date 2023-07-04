@@ -10,19 +10,9 @@ import koala from '../img/koalalittl.png'
 function CreditCard({amountDollar, data, infoCard, user}){
     const [addCard, setAddCard] = useState(false);
 
-    // useEffect(() => {
-    //     addNewBankCard(addCard)
-    
-    //   }, [addCard])
-    
-    // function addBankkCard(){
-        
-    //     setAddCard(true)
-        
-    // }  
-       
-    console.log(infoCard)
-    
+    if(infoCard.length == 0){
+        infoCard = 0
+    }
     
     function integer() {
         let intDot = (Number(amountDollar(data)[0]) % 1).toFixed(2).toString().slice(1)

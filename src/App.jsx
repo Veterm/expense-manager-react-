@@ -125,6 +125,7 @@ console.log(infoCardPanda)
   },[dataState])
 
   useEffect(()=>{
+  
     setUserStorage(activeUser)
   },[activeUser])
 
@@ -152,7 +153,16 @@ console.log(infoCardPanda)
     useEffect(()=> {
       currencyService.getCours().then(res => setCourse({USD: res.data.USD, PLN: res.data.PLN, EUR: res.data.EUR} ))
     }, [])
-
+function kostal(){
+  if(activeUser.length == 0){
+    setActiveUser('panda')
+  }
+  // }if(infoCardKoala.length == 0){
+  //   setInfoCardKoala({user: 'Koala', card_number: 'Card number', card_m: 'm', card_y: 'd'})
+  // }
+}
+kostal() 
+    
    
     useEffect(()=>{
       setStatisticRevenue({
@@ -550,7 +560,7 @@ function clickOnCoala(){
 
   }
 
- 
+//  console.log(activeUser)
 
   let tabsContent = [
     {
@@ -577,7 +587,7 @@ function clickOnCoala(){
   }
 
   return (
-    <div className=" border-2 border-red-500 rounded-lg bg-greyBG my-4 pb-2">
+    <div className=" border-2  rounded-lg bg-greyBG my-4 pb-2">
     <div className="mx-6">
     {/* <Convert/> */}
       <div className="flex   ">
