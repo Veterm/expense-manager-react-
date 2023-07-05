@@ -29,7 +29,6 @@ function CreditCard({amountDollar, data, infoCard, user}){
     }
 
    
-    console.log(integer()[1])
     
     return(
         <div className="flex   w-auto h-48 pr-5">

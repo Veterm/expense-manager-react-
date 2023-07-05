@@ -8,7 +8,7 @@ import data from "../data/ModelData";
 
 function Tabs(props) {
   
-  const { data, deleteHandler, editHandler, filterUser, useFilterUserPanda, useFilterUserKoala, searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate, activeUser} = props;
+  const { data, deleteHandler, editHandler, filterUser, filerCardDate, useFilterUserPanda, useFilterUserKoala, searchId, searchIndexTab, useFilter, filterCategory, useDate, nameDate, activeUser} = props;
   const [filterData, setFilterData] = useState(0)
   const lupa = <div className="flex justify-center mt-44 mx-40 px-1">
   <img className=" " src={empty} alt="" />
@@ -72,7 +72,7 @@ function Tabs(props) {
               
                 {item.content.length > 0 && 
                   <>
-                    {item.content.filter(x => useDate ? x.day == nameDate : true).filter(x => useFilter ? x.category == filterCategory : true).filter(x => useFilterUserPanda? x.user == filterUser: true).filter(x => useFilterUserKoala? x.user == filterUser: true).map((x, i) => (
+                    {filerCardDate(item.content).filter(x => useDate ? x.day == nameDate : true).filter(x => useFilter ? x.category == filterCategory : true).filter(x => useFilterUserPanda? x.user == filterUser: true).filter(x => useFilterUserKoala? x.user == filterUser: true).map((x, i) => (
 
                 <Card
                     key={i}

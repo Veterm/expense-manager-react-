@@ -348,7 +348,47 @@ kostal()
     }
 
 
- 
+
+    
+
+  function filerCardDate(arr){
+  let listFiltred =[]
+   let copy = arr
+   let day = [...new Set(arr.map(x => x.day))]
+
+   for(let i = 0; i<day.length; i++){
+    let day1 = day[i];
+    let year = day1.substring(6, 10)
+    let mounth = day1.substring(3, 5)
+    let dateoF = day1.substring(0, 2)
+    let dateTransact = String(year + '-' + mounth + '-' + dateoF)
+    let date = (new Date(dateTransact));
+    
+    day[i]= date
+    }
+    day.sort((date1, date2) => date1 - date2)
+
+    for(let i = 0; i<day.length; i++){
+      let   monthName =  `${day[i].getDate() < 10 ? "0" + day[i].getDate() : day[i].getDate()}/${(day[i].getMonth() +1)<10 ? "0" + (day[i].getMonth() +1) : (day[i].getMonth() +1) }/${day[i].getFullYear()}`;
+      // let monthName = day[i].toLocaleString('default', { month: 'long' }) + ' ' + day[i].getFullYear();
+      day[i] = monthName
+    }
+
+    for(let i = 0; i < day.length; i++){
+        
+      let val = copy.filter(x => x.day === day[i])
+      listFiltred.push({ ...copy[i],day: day[i], })
+      
+    }
+    // for(let i = 0; i<copy.length; i++){
+
+    // }
+    return listFiltred
+  }
+  // console.log(filerCardDate(dataState))
+
+
+
 
   function addTransaction(obj) {
     if(obj.category == 'salary' || obj.category == 'card replenishment' ){
@@ -607,7 +647,7 @@ function clickOnCoala(){
       <CardData getInfoBankCard={getInfoBankCard}/>
       </div>
       <div className="bg-white rounded-lg py-4 z-10 ">
-        <Tabs data={tabsContent} activeUser={activeUser} filterUser={filterUser} useFilterUserKoala={useFilterUserKoala} useFilterUserPanda={useFilterUserPanda} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
+        <Tabs data={tabsContent} activeUser={activeUser} filerCardDate={filerCardDate} filterUser={filterUser} useFilterUserKoala={useFilterUserKoala} useFilterUserPanda={useFilterUserPanda} deleteHandler={deleteTransaction} useFilter={useFilter} filterCategory={filterCategory} useDate={useDataFilter} nameDate={nameDate} editHandler={editForm} searchId={getIdForm} searchIndexTab={getIndexActivaTab} />
         <TotalAmount getAmount={getAmount}  data={dataState} useFilterUserPanda={useFilterUserPanda} useFilterUserKoala={useFilterUserKoala} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
