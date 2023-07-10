@@ -12,11 +12,15 @@ import trash from "./../img/trash.png"
 import pencil from "./../img/pencil.png"
 import panda from '../img/pandalittl.png'
 import koala from '../img/koalalittl.png'
+import health from '../img/health.png'
+import educ from '../img/education.png'
+import products from '../img/shop.png'
+import plane from '../img/plane.png'
 
 
 
    
-const icons = { "education": shop, "selfcare": shop , 'salary': wallet ,  "travel": car , "transport": car, "entertainment": game ,"restaurant":food,  "products": food , 'card replenishment': wallet,  "other": shop }
+const icons = { "education": educ, "selfcare": health , 'salary': wallet ,  "travel": plane , "transport": car, "entertainment": game ,"restaurant":food,  "products": products , 'card replenishment': wallet,  "other": shop }
 const currency = {PLN: 'zł', USD: "$", EUR: "€" }
 
 
