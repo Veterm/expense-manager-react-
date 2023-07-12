@@ -10,10 +10,12 @@
       spacing: {
         '128': '42rem',
         '68': '17rem',
-        '63': '15.5rem'
+        '63': '15.5rem',
+        '99': '22.7rem'
       },
       backgroundImage:{
-        'zebra':"url('/img/zebra.png')"
+        'zebra':"url('/img/zebra.png')",
+        'gory' : "url('../img/mauntains.png')"
       }
     },
   },

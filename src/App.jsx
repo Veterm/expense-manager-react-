@@ -9,6 +9,8 @@ import Statistics from "./statistics/Statistics";
 import Datepick from "./datepicker/Datepicker";
 import CardData from "./creditCard/CardData";
 import AddCategories from "./categories/Categories";
+import Plans from "./plans/Plans";
+import ActuelDate from "./actualDate/ActualDate";
 
 import "./App.css";
 import Select from "./select/Select";
@@ -631,17 +633,23 @@ function clickOnCoala(){
     <div className="mx-6">
 
       <div className="flex   ">
-      <h1 className=" text-zinc-300 justify-items-start text-lg  pl-5 my-1 mr-28">Account</h1>
-      <h1 className=" text-zinc-300 justify-items-start text-lg my-1 mr-63">Add a new category</h1>
+      <h1 className=" text-zinc-300 justify-items-start text-lg  pl-5 my-1 pr-6 mr-20">Account</h1>
+      <h1 className=" text-zinc-300 justify-items-start text-lg my-1 pr-2 mr-64">Add a new category</h1>
       <Datepick dateFilter={filterDate} closeHandler={closeDateFilter}/>
       <h1 className=" text-zinc-300 text-lg justify-end  pl-32  my-1" >Recent Transaction</h1>
       </div>
       <div className=" flex flex-wrap    ">
-        <div className=" mr-4">
+        <div className="grid grid-cols-1 ">
+          <div className="flex space-x-5 z-10 h-60">
+            <div>
       <Accounts clickOnPanda={clickOnPanda} clickOnCoala={clickOnCoala} activeUser={activeUser}/>
+      <ActuelDate/>
       </div>
-      <div>
       <AddCategories/>
+      </div>
+      <div className="col-span-2">
+        <Plans/>
+      </div>
       </div>
       <div >
       <div className=" space-y-20">
@@ -655,11 +663,12 @@ function clickOnCoala(){
         <TotalAmount getAmount={getAmount}  data={dataState} useFilterUserPanda={useFilterUserPanda} useFilterUserKoala={useFilterUserKoala} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
-        <Modal isEditForm={false}  addNewTransaction={addTransaction}  />
+        <Modal isEditForm={false} nameButtom={'Add transaction'} addNewTransaction={addTransaction}  />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
         </div>
+        
       </div>
       <Statistics chartData={statistics} comparsion={comparsion} income={statisticRevenue} />
     </div>

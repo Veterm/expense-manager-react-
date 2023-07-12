@@ -22,9 +22,9 @@ function Statistics({chartData, income, comparsion}){
         <h1 className="  mb-1 ml-6 " >Comparison</h1>
         <h1 className="  mb-1 mr-6 " >Statistics</h1>
         </div>
-        <div className=" flex  flex-wrap   justify-between ">
+        <div className=" flex  flex-wrap   justify-between  ">
             
-            <div className="bg-white w-92 pt-6 w-96 pr-5 rounded-lg h-56">
+            <div className="bg-white w-92 pt-6 w-99 pr-5  rounded-lg h-56">
           {comparsion.labels.length == 0? <div className='py-12 px-16 ml-2'>{lupa}</div> : <Bar data={comparsion} options={ {
                     plugins: {
                       title: {

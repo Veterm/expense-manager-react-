@@ -12,7 +12,7 @@ import wallet  from '../img/bag.png'
 
 
 function Modal(props) {
-const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
+const  {addNewTransaction, isEditForm, onClose, nameButtom} = props;
   const [isOpen, setIsOpen] = useState(isEditForm);
   // let [editForm, setEdForm] = useState();
   const [form, setForm] = useState({ sum: '', valyt: 'PLN', category: '', description: '', type: "expense", day: "", icon: wallet, });
@@ -119,7 +119,7 @@ const  {addNewTransaction, isEditForm, onClose, activeUser} = props;
           onClick={openModal}
           className="rounded-md  bg-pink-900 drop-shadow-xl px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
-          Add transaction
+          {nameButtom}
         </button>
       </div>}
       

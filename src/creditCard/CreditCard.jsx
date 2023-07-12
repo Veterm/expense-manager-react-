@@ -27,7 +27,7 @@ function CreditCard({amountDollar, data, infoCard, user}){
         let completed = (Number(intExpense) * 100)/Number(intIncome)
         return [intDot, intIncome, intLimit, intIncomeDot, completed ]
     }
-
+console.log(integer()[0])
    
     
     return(
