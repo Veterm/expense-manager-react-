@@ -63,7 +63,7 @@ function AddCategories(){
       
     }
     
-    console.log(categoryListState)
+    // console.log(categoryListState)
     function closeModal() {
         setIsOpen(false);
       }

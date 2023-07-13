@@ -71,7 +71,7 @@ function Card(props) {
           <img className=" " src={pencil} alt="" />
         </button>
         <img className="w-6 h-6 mt-3 ml-0.5"src={user == 'panda'? panda : koala} alt="" />
-        {editForm && <Modal isEditForm={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}  />}
+        {editForm && <Modal isEditForm={true} goalModal={false} transactionModal={true} onClose={() => {setEditForm(false)}} addNewTransaction={editHandler}  />}
 
       </div>
     </div> 

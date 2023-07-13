@@ -56,6 +56,7 @@ function App() {
   const [infoCardKoala, setInfoCardKoala]= useState(storageInfoCardKoala)
   const [useFilterUserPanda, setUseFilterUserPanda] = useState(false)
   const [useFilterUserKoala, setUseFilterUserKoala] = useState(false)
+  const [newGoal, setNewGoal] = useState('')
   const [statistics, setStatistics] = useState({
     labels: arrForStatisticsExpensSumm(transactions).map(item => item.category),
 
@@ -403,6 +404,13 @@ kostal()
     obj.id = copyList.length;
     setStateData(copyList)
   }
+
+  function addNewGoal(obj){
+  
+    setNewGoal(obj)
+  }
+
+
     
  function getInfoBankCard(info){
   if(info.user == 'panda'){
@@ -648,7 +656,7 @@ function clickOnCoala(){
       <AddCategories/>
       </div>
       <div className="col-span-2">
-        <Plans/>
+        <Plans newGoal={newGoal} addNewGoal={addNewGoal}/>
       </div>
       </div>
       <div >
@@ -663,7 +671,7 @@ function clickOnCoala(){
         <TotalAmount getAmount={getAmount}  data={dataState} useFilterUserPanda={useFilterUserPanda} useFilterUserKoala={useFilterUserKoala} activeValut={activeValut} userFilterHandlerPanda={userFilterHandlerPanda} userFilterHandlerKoala={userFilterHandlerKoala}/>
         
         <div className="mt-4 ml-5 pr-2 flex place-content-center space-x-8  text-left">
-        <Modal isEditForm={false} nameButtom={'Add transaction'} addNewTransaction={addTransaction}  />
+        <Modal isEditForm={false} nameButtom={'Add transaction'} transactionModal={true} goalModal={false} addNewTransaction={addTransaction}   />
         <Select isFullWidth={true} items={category}  handleCategory={categoryHandler} />
         </div>
         
